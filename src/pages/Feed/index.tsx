@@ -19,7 +19,11 @@ const Feed: React.FC = () => {
     setLoading(true);
     try {
       const res = await request<PostsResponse>({ url: "/feed/api", method: "GET" });
-      setPosts(res.data.posts || []);
+      const postsWithMediaType = res.data.posts.map(post => ({
+        ...post,
+        mediaType: post.imageUrl && post.imageUrl.includes(".mp4") ? "video" : "image",
+      }));
+      setPosts(postsWithMediaType || []);
     } catch (err: any) {
       console.error("❌ Erro ao buscar posts:");
       if (err.response) {
