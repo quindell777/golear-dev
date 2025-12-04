@@ -10,7 +10,7 @@ interface Props {
 const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
   const [titulo, setTitulo] = useState("");
   const [conteudo, setConteudo] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [media, setMedia] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,15 +18,15 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setImage(file);
+      setMedia(file);
       setPreview(URL.createObjectURL(file));
     }
   };
 
-  const handleRemoveImage = () => {
-    const confirmRemove = window.confirm("Tem certeza que deseja remover a imagem?");
+  const handleRemoveMedia = () => {
+    const confirmRemove = window.confirm("Tem certeza que deseja remover a mídia?");
     if (confirmRemove) {
-      setImage(null);
+      setMedia(null);
       setPreview(null);
     }
   };
@@ -42,7 +42,7 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
     const formData = new FormData();
     formData.append("titulo", titulo);
     formData.append("conteudo", conteudo);
-    if (image) formData.append("image", image);
+    if (media) formData.append("image", media);
 
     try {
       const res = await request<{ post: Omit<Post, "likes" | "likedByCurrentUser"> }>({
@@ -56,12 +56,13 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
         ...res.data.post,
         likes: 0,
         likedByCurrentUser: false,
+        mediaType: media?.type.startsWith("video") ? "video" : "image",
       };
 
       onPostCreated(newPost);
       setTitulo("");
       setConteudo("");
-      setImage(null);
+      setMedia(null);
       setPreview(null);
     } catch (err) {
       console.error("Erro ao criar post:", err);
@@ -116,11 +117,15 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
             {preview && (
               <>
                 <div className={styles.imagePreview}>
-                  <img src={preview} alt="Pré-visualização" />
+                  {media && media.type.startsWith("video/") ? (
+                    <video src={preview} controls />
+                  ) : (
+                    <img src={preview} alt="Pré-visualização" />
+                  )}
                 </div>
                 <div className={styles.imageActions}>
                   <label htmlFor="image" className={styles.changeButton}>
-                    Mudar imagem
+                    Mudar mídia
                     <input
                       id="image"
                       type="file"
@@ -132,7 +137,7 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
                   <button
                     type="button"
                     className={styles.removeButton}
-                    onClick={handleRemoveImage}
+                    onClick={handleRemoveMedia}
                   >
                     Remover
                   </button>

@@ -53,6 +53,7 @@ export interface Post {
   usuarioId: number; // FK para usuário
   createdAt: string; // Data ISO
   imageUrl?: string; // Imagem opcional
+  mediaType?: "image" | "video"; // Tipo de mídia
   likedByCurrentUser?: boolean; // Se usuário curtiu
   likes?: number; // Total de curtidas
   author?: PostAuthor; // Autor do post

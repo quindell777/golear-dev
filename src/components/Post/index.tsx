@@ -117,7 +117,11 @@ const PostCard: React.FC<Props> = ({ post, onToggleLike, onDelete, currentUserId
 
       {post.imageUrl && (
         <div className={styles.imageContainer}>
-          <img src={post.imageUrl} alt={`Imagem para ${post.titulo}`} className={styles.postImage} />
+          {post.mediaType === "video" ? (
+            <video src={post.imageUrl} controls className={styles.postImage} />
+          ) : (
+            <img src={post.imageUrl} alt={`Mídia para ${post.titulo}`} className={styles.postImage} />
+          )}
         </div>
       )}
 
