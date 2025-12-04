@@ -104,11 +104,11 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
                 <input
                   id="image"
                   type="file"
-                  accept="image/*"
+                  accept="image/*,video/*"
                   onChange={handleFileChange}
                 />
                 <label htmlFor="image" className={styles.uploadButton}>
-                  Selecionar imagem
+                  Anexar mídia 📎
                 </label>
               </>
             )}
@@ -124,7 +124,7 @@ const NewPostForm: React.FC<Props> = ({ onPostCreated }) => {
                     <input
                       id="image"
                       type="file"
-                      accept="image/*"
+                      accept="image/*,video/*"
                       onChange={handleFileChange}
                       hidden
                     />
