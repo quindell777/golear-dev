@@ -1,0 +1,160 @@
+@import '../../styles/variables.scss';
+
+.page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 1.8rem;
+    color: $light-text-primary;
+    margin: 0;
+  }
+
+  .primaryButton {
+    background-color: $green-primary;
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: $green-dark;
+    }
+  }
+}
+
+.message {
+  background: $green-light;
+  color: $green-dark;
+  border: 1px solid $green-primary;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.feedback {
+  text-align: center;
+  color: $light-text-secondary;
+  font-size: 1rem;
+  padding: 2rem;
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  .secondaryButton {
+    background-color: $light-surface;
+    border: 1px solid $light-border;
+    padding: 0.7rem 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $light-bg;
+    }
+  }
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: $light-surface;
+  border: 1px solid $light-border;
+  border-radius: $radius;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: $shadow-medium;
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .icon {
+      color: $green-primary;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .description {
+    font-size: 0.95rem;
+    color: $light-text-secondary;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: $light-text-secondary;
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  }
+}
+
+.cardActions {
+  margin-top: auto; // Pushes actions to the bottom
+  padding-top: 1rem;
+  border-top: 1px solid $light-border;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.subscribeButton, .subscribedButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subscribeButton {
+  background-color: $green-primary;
+  color: #fff;
+  border: 1px solid $green-primary;
+
+  &:hover {
+    background-color: $green-dark;
+  }
+}
+
+.subscribedButton {
+  background-color: transparent;
+  color: $green-primary;
+  border: 1px solid $green-primary;
+}
+
+

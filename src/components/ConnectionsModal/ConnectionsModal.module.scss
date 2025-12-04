@@ -1,0 +1,83 @@
+@import '../../styles/variables.scss';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: $light-surface;
+  color: $light-text-primary;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: $shadow-medium;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid $light-border;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: $light-text-secondary;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $light-text-primary;
+  }
+}
+
+.userList {
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $light-bg;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

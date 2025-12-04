@@ -1,0 +1,105 @@
+@use "sass:color";
+@use '../../../styles/LandingPage/variables' as *;
+
+.beneficios {
+  padding: 4rem 2rem;
+  background-color: $white;
+  text-align: center;
+
+  h2 {
+    font-family: $font-title;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: $green-dark;
+  }
+
+  .cards {
+    display: grid;
+    // Otimizado para 2 colunas como padrão (para 5 cards)
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 2rem;
+
+    .card {
+      background: $white;
+      padding: 2rem;
+      border-radius: $radius;
+      box-shadow: $shadow-light;
+      text-align: left;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .icon {
+        font-size: 2.2rem;
+        color: $green-dark;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        font-family: $font-title;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        color: $green-dark;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          font-family: $font-body;
+          font-size: 1rem;
+          margin-bottom: 0.8rem; // Aumentei a margem para separar melhor os benefícios
+          color: color.adjust($green-dark, $lightness: -20%);
+          
+          // Estilo para a marca de "check" e destaque do texto
+          position: relative;
+          padding-left: 1.5rem; 
+
+          strong {
+              color: $green-dark; // Garante que o texto em negrito se destaque
+          }
+          
+          &::before {
+              content: "✅"; // Adiciona um checkmark visual
+              position: absolute;
+              left: 0;
+              font-size: 0.8rem;
+              top: 3px;
+              line-height: 1;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsividade
+  
+  // Para telas extra-grandes, voltamos para 3 colunas, pois o espaço horizontal é suficiente
+  @media (min-width: 1400px) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  // Para telas médias (tablets e notebooks), mantemos as 2 colunas
+  @media (max-width: 1024px) {
+    .cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  // Para telas pequenas (celulares), 1 coluna
+  @media (max-width: 768px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+}

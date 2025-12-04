@@ -1,0 +1,32 @@
+@use "sass:color";
+@use '../../../styles/LandingPage/variables' as *;
+
+.footer {
+  background: $green-dark;
+  color: $white;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+  flex-wrap: wrap;
+
+  .links {
+    display: flex;
+    gap: 2rem;
+
+    span {
+      cursor: pointer;
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    padding: 2rem 2rem;
+    .links { gap: 1.5rem; }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}

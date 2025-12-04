@@ -1,0 +1,62 @@
+.module {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  transition: box-shadow 0.2s ease-in-out;
+  margin-bottom: 20px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #22c55e; // verde padrão do ProfileHeader
+  }
+
+  p, li {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+
+      strong {
+        color: #16a34a; // verde escuro para destaque dentro da lista
+      }
+    }
+  }
+
+  .postCard {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e1e9ee;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    margin-bottom: 0.75rem;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    small {
+      color: #777;
+      font-size: 0.8rem;
+    }
+  }
+
+  .noActivity {
+    color: #999;
+    font-style: italic;
+  }
+}

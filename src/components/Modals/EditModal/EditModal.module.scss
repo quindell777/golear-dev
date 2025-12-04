@@ -1,0 +1,209 @@
+@import "../../../styles/variables.scss";
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 20, 25, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.modal {
+  background: $light-surface;
+  border-radius: $radius;
+  width: 95%;
+  max-width: 760px;
+  max-height: 95vh;   // aumenta a altura máxima
+  padding: 2rem 2.4rem;
+  box-shadow: $shadow-hard;
+  display: flex;
+  flex-direction: column;
+  font-family: $font-primary;
+  color: $light-text-primary;
+  overflow-y: auto;   // scroll vertical para todo o modal
+  scrollbar-width: thin;
+  scrollbar-color: rgba($gray-light, 0.5) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($gray-light, 0.5);
+    border-radius: 6px;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $green-dark;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba($green-primary, 0.2);
+    padding-bottom: 0.6rem;
+  }
+
+  .section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.6rem;
+    padding: 1rem;
+    border-radius: $radius;
+    background-color: $gray-light;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+
+    &.fullWidth {
+      grid-template-columns: 1fr;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: $light-text-secondary;
+
+      input,
+      select,
+      textarea {
+        margin-top: 0.4rem;
+        padding: 0.7rem 0.8rem;
+        border-radius: 10px;
+        border: 1px solid $gray-light;
+        font-size: 0.95rem;
+        color: $light-text-primary;
+        background-color: $white;
+        transition: all 0.25s ease;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+
+        &:focus {
+          outline: none;
+          border-color: $green-primary;
+          box-shadow: 0 0 0 3px rgba($green-primary, 0.15);
+        }
+      }
+
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+    }
+  }
+
+  /* ===== STATS CONTAINER ===== */
+  .statsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: $green-light;
+    border-radius: $radius;
+
+    label {
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: $green-dark;
+
+      input {
+        margin-top: 0.3rem;
+        width: 100%;
+        text-align: center;
+        border: 1px solid $gray-light;
+        border-radius: 6px;
+        padding: 0.35rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    button {
+      padding: 0.75rem 1.6rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+
+      &.saveButton {
+        background-color: $green-primary;
+        color: $white;
+
+        &:hover {
+          background-color: $green-dark;
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: scale(0.97);
+        }
+      }
+
+      &.cancelButton {
+        background-color: $gray-light;
+        color: $gray-dark;
+        border: 1px solid $gray-medium;
+
+        &:hover {
+          background-color: lighten($gray-light, 5%);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 700px) {
+  .modal {
+    padding: 1.5rem 1.5rem;
+
+    .section {
+      grid-template-columns: 1fr;
+      padding: 0.8rem;
+    }
+
+    .statsContainer {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .modalActions {
+      flex-direction: column-reverse;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* ===== Animação ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

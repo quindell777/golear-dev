@@ -1,0 +1,32 @@
+/* Container do erro */
+.error {
+  background-color: #fdeae9; /* Fundo branco leve */
+  color: #e74c3c; /* Texto vermelho */
+  padding: 1rem; /* Espaçamento interno */
+  border-radius: 8px; /* Bordas arredondadas */
+  text-align: center; /* Centraliza texto */
+  max-width: 400px; /* Largura máxima */
+  margin: 2rem auto; /* Centraliza */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra sutil */
+
+  p {
+    margin-bottom: 1rem; /* Espaço abaixo do texto */
+    font-size: 1rem;
+  }
+
+  button {
+    background-color: #e74c3c; /* Botão vermelho */
+    color: white; /* Texto branco */
+    border: none; /* Sem borda */
+    padding: 0.5rem 1rem; /* Espaçamento interno */
+    border-radius: 0.5rem; /* Bordas arredondadas */
+    cursor: pointer; /* Ponteiro no hover */
+    font-weight: 600; /* Texto semi-bold */
+    margin-top: 1rem; /* Espaço acima */
+    transition: background-color 0.2s; /* Animação suave */
+
+    &:hover {
+      background-color: #c0392b; /* Vermelho mais escuro no hover */
+    }
+  }
+}

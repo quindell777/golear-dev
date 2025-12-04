@@ -1,0 +1,81 @@
+@import './variables.scss';
+
+/* Box sizing global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remover margens/paddings padrões */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Tornar body mais previsível */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: $font-primary;
+  background-color: $light-bg;
+  color: $light-text-primary;
+}
+
+/* Links limpos */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Imagens e mídias responsivas */
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Remover estilos padrões de lista */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Inputs e botões */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+}
+
+/* Botões acessíveis */
+button {
+  cursor: pointer;
+}
+
+/* Tabelas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Melhorar tipografia em blocos */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}

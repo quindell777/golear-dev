@@ -1,0 +1,283 @@
+@import '../../styles/variables.scss';
+
+// ===== ANIMAÇÕES =====
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(300%); }
+}
+
+// ===== SIDEBAR - DESKTOP/DEFAULT =====
+.sidebar {
+  width: 250px; // desktop: largura fixa
+  background-color: $light-surface;
+  border: 1px solid $light-border;
+  border-radius: $radius;
+  padding: 1rem;
+  box-shadow: $shadow-soft;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: $font-primary;
+  max-height: fit-content;
+  animation: fadeIn 0.4s ease-in-out;
+  position: sticky;
+  top: 20px;
+  align-self: start;
+
+  // ===== PERFIL =====
+  .profile {
+    border-radius: $radius;
+    overflow: hidden;
+    position: relative;
+    background-color: $light-bg;
+    border: 1px solid $light-border;
+    transition: box-shadow 0.2s ease-in-out;
+
+    &:hover { box-shadow: $shadow-medium; }
+
+    .cover {
+      width: 100%;
+      height: 100px;
+      background-size: cover;
+      background-position: center;
+      border-radius: $radius $radius 0 0;
+    }
+
+    .profileContent {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid $light-surface;
+        object-fit: cover;
+        margin-top: -40px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+          transform: scale(1.07);
+          box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+        }
+      }
+
+      .userInfo {
+        margin-top: 0.5rem;
+
+        h3 {
+          font-size: 1rem;
+          font-weight: 600;
+          color: $light-text-primary;
+          margin: 0.25rem 0;
+          transition: color 0.2s ease;
+
+          &:hover { color: $green-primary; }
+        }
+
+        p {
+          font-size: 0.8rem;
+          color: $light-text-secondary;
+          margin: 2px 0;
+        }
+      }
+    }
+  }
+
+  // ===== LINKS ÚTEIS =====
+  .usefulLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+
+    h4 {
+      font-weight: 500;
+      color: $light-text-secondary;
+      margin-bottom: 0.25rem;
+    }
+
+    a, button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: $light-text-primary;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        color: $green-primary;
+        background-color: rgba(34, 197, 94, 0.1);
+        transform: translateX(2px);
+      }
+
+      &:focus { outline: 2px solid rgba(34, 197, 94, 0.3); outline-offset: 2px; }
+      &:active { transform: scale(0.97); }
+    }
+
+    button { justify-content: flex-start; }
+  }
+
+  // ===== ESTATÍSTICAS =====
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    border-top: 1px solid $light-border;
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover { background-color: $light-bg; }
+
+      strong {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $light-text-primary;
+      }
+
+      span {
+        font-size: 0.8rem;
+        color: $light-text-secondary;
+      }
+    }
+  }
+
+  // ===== MOBILE / TABLET (Layout de 2 linhas: Perfil | Links) =====
+  @media (max-width: 1024px) {
+    
+    // --- 1. O CONTAINER PRINCIPAL (agora é uma coluna) ---
+    .sidebar {
+      display: flex;
+      flex-direction: column; // Perfil em cima, links embaixo
+      align-items: center;
+      
+      width: 100%;
+      height: auto;
+      position: fixed; // Permanece fixo no topo
+      top: 0;
+      left: 0;
+      z-index: 999; // <--- AJUSTE DE Z-INDEX: Abaixo da Navbar (1000)
+      
+      background-color: $light-surface;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid $light-border;
+      
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+      
+      overflow-x: hidden; // Remove o scroll horizontal
+    }
+
+    // --- 2. LINHA 1: PERFIL + STATS ---
+    .profile {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      border: none;
+      padding: 0;
+      background: none;
+      overflow: visible;
+      &:hover { box-shadow: none; }
+    }
+
+    // REQUERIMENTO: Tira o banner
+    .profile .cover {
+      display: none;
+    }
+
+    // Container do Avatar + Nome
+    .profile .profileContent {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0;
+    }
+
+    // REQUERIMENTO: Fica menor
+    .profile .avatar {
+      width: 40px;
+      height: 40px;
+      margin-top: 0;
+      border-width: 2px;
+    }
+    
+    .profile .userInfo {
+      margin-top: 0;
+      // Remove a bio
+      p { display: none; }
+      h3 { font-size: 1rem; margin: 0; }
+    }
+
+    // Container das Estatísticas
+    .stats {
+      display: flex;
+      flex-direction: row;
+      flex: 0 0 auto;
+      padding: 0;
+      border-top: none;
+      gap: 1rem;
+    }
+    
+    .stat {
+      padding: 0;
+      strong { font-size: 0.9rem; }
+      span { font-size: 0.75rem; }
+      &:hover { background: none; }
+    }
+
+    // --- 3. LINHA 2: LINKS ÚTEIS ---
+    // REQUERIMENTO: Passam para baixo e ficam lado a lado
+    .usefulLinks {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      
+      padding: 0.5rem 0 0 0;
+      border-top: 1px solid $light-border;
+
+      // Esconde o título
+      h4 {
+        display: none;
+      }
+
+      button, a {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

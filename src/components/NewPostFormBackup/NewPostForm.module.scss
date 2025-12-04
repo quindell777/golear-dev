@@ -1,0 +1,60 @@
+@import '../../styles/variables.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: $light-surface;
+  padding: 1rem;
+  border: 1px solid $light-border;
+  border-radius: $radius;
+  box-shadow: $shadow-soft;
+  width: 100%;
+  max-width: 600px;
+  font-family: $font-primary;
+
+  input, textarea {
+    width: 100%;
+    border: 1px solid $light-border;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: $green-primary;
+      box-shadow: 0 0 0 2px rgba($green-primary, 0.2);
+    }
+  }
+
+  textarea { min-height: 60px; resize: none; }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+button {
+  background-color: $green-primary;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+
+  &:hover { background-color: $green-dark; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+@media (max-width: 768px) {
+  .form { padding: 0.75rem; gap: 0.4rem; }
+  input, textarea { font-size: 0.9rem; padding: 0.5rem; }
+  button { padding: 0.45rem 0.9rem; font-size: 0.9rem; }
+}

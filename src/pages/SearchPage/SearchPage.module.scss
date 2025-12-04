@@ -1,0 +1,156 @@
+@import '../../styles/variables.scss';
+
+.page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 1.8rem;
+    color: $light-text-primary;
+    margin: 0;
+  }
+}
+
+.feedback {
+  text-align: center;
+  color: $light-text-secondary;
+  font-size: 1rem;
+  padding: 2rem;
+}
+
+// Estilos do Formulário de Filtros
+.filtersForm {
+  background: $light-surface;
+  padding: 1.5rem;
+  border-radius: $radius;
+  box-shadow: $shadow-soft;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: flex-end; /* Alinha o botão com os inputs */
+
+  input[type="text"], 
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $light-border;
+    border-radius: 0.4rem;
+    background: #fff;
+    font-size: 0.9rem;
+    color: $light-text-primary;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $green-primary;
+      outline: none;
+    }
+  }
+
+  button[type="submit"] {
+    background-color: $green-primary;
+    color: #fff;
+    padding: 0.75rem 1.4rem;
+    border: none;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    height: 100%; /* Garante que o botão tenha a mesma altura dos inputs */
+
+    &:hover {
+      background-color: $green-dark;
+    }
+  }
+}
+
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  label {
+    font-size: 0.85rem;
+    color: $light-text-secondary;
+    font-weight: 500;
+  }
+}
+
+// Estilos para a lista de resultados
+.resultsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+// Estilos do Card de Jogador (PlayerCard)
+.playerCard {
+  background: $light-surface;
+  border: 1px solid $light-border;
+  border-radius: $radius;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $shadow-medium;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid $green-primary;
+  }
+
+  .details {
+    flex-grow: 1;
+
+    .name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $light-text-primary;
+      margin: 0 0 0.2rem 0;
+    }
+
+    .info {
+      font-size: 0.85rem;
+      color: $light-text-secondary;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      svg {
+        color: $green-primary;
+      }
+    }
+  }
+
+  .profileLink {
+    text-decoration: none;
+    color: $green-primary;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: 1px solid $green-primary;
+    border-radius: 0.4rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $green-primary;
+      color: #fff;
+    }
+  }
+}

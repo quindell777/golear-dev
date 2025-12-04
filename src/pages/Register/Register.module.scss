@@ -1,0 +1,172 @@
+@use "sass:color";
+
+$green: #1fa12f;
+$green-dark: #148026;
+$gray-light: #f5f5f5;
+$white: #fff;
+$input-bg: #fafafa;
+$input-border: #ddd;
+$shadow: rgba(0, 0, 0, 0.1);
+// Novas Cores para Erros
+$error-text: #ef4444; // Vermelho usado no JS
+$error-bg: #fee2e2;
+$error-border: #fecaca;
+
+@mixin button-style($bg, $color: $white, $hover-bg: null) {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  background: $bg;
+  color: $color;
+  transition: background 0.3s, transform 0.2s;
+
+  &:hover {
+    background: if($hover-bg != null, $hover-bg, color.adjust($bg, $lightness: -10%));
+    transform: translateY(-2px);
+  }
+}
+
+.registerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f4e8, $white);
+  padding: 1rem;
+}
+
+.registerForm {
+  background: $white;
+  padding: 3rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px $shadow;
+  width: 100%;
+  max-width: 550px;
+  text-align: center;
+
+  .title {
+    font-size: 2rem;
+    color: $green-dark;
+    margin-bottom: 1.5rem;
+  }
+
+  // NOVO: Estrutura para agrupar input e erro
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.2rem; // Espaço entre os grupos
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    // REMOVIDO: margin-bottom: 1.2rem; -> Movido para .inputGroup
+    border: 1px solid $input-border;
+    border-radius: 8px;
+    background: $input-bg;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      border-color: $green;
+      box-shadow: 0 0 0 3px rgba($green, 0.2);
+    }
+    // Adicionamos estilo para a borda do input com erro, que é aplicado via style no JSX
+    &[style*="border-color: #ef4444"] {
+        border-color: $error-text !important;
+    }
+  }
+  
+  // NOVO: Estilo para mensagem de erro embutida (inline)
+  .errorText {
+    color: $error-text;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    margin-left: 0.25rem;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  // NOVO: Estilo para mensagem de erro global (de API/Servidor)
+  .globalError {
+    background-color: $error-bg;
+    color: color.scale($error-text, $lightness: -20%); // Deixa o texto mais escuro
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    width: 100%;
+    border: 1px solid $error-border;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .row {
+    display: flex;
+    gap: 1rem;
+
+    // Ajustado para usar .inputGroup
+    .inputGroup {
+      flex: 1;
+      margin-bottom: 1.2rem; 
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem; // Adiciona espaço acima dos botões
+
+    .nextButton {
+      @include button-style($green, $white, $green-dark);
+    }
+
+    .backButton {
+      @include button-style(#ddd, #333, #bbb);
+    }
+
+    .submitButton {
+      @include button-style($green-dark, $white, color.adjust($green-dark, $lightness: 10%));
+    }
+  }
+
+  // REMOVIDO: A antiga .errorBox / .error não é mais necessária
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  // Responsividade
+  @media (max-width: 1024px) {
+    padding: 2.5rem 2rem;
+
+    .title { font-size: 1.8rem; }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+
+    .title { font-size: 1.6rem; }
+    .submitButton { width: 100%; margin-top: 0.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+
+    .title { font-size: 1.4rem; }
+    .input { padding: 0.7rem; font-size: 0.95rem; }
+    .buttons { flex-direction: column; gap: 0.5rem; }
+  }
+}

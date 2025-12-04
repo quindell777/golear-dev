@@ -1,0 +1,22 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; // proporção inicial
+  gap: 16px; // espaço entre colunas
+  width: 100%;
+  max-width: 1200px; // limite para telas grandes
+  margin: 0 auto; // centraliza
+  padding: 0 16px;
+}
+
+/* Responsivo: mobile (≤768px) */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr; // tudo empilhado
+    gap: 12px;
+    padding-top: 110px; 
+  }
+
+  .container > * { 
+    position: static !important;
+  }
+}

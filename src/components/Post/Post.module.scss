@@ -1,0 +1,168 @@
+@import '../../styles/variables.scss';
+
+.post {
+  background: $light-surface;
+  border: 1px solid $light-border;
+  border-radius: $radius;
+  padding: 1rem;
+  box-shadow: $shadow-soft;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: $font-primary;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.5rem;
+    strong { color: $light-text-primary; }
+    small { color: $light-text-secondary; }
+  }
+
+  .deleteButton {
+    background: transparent;
+    border: none;
+    color: $light-text-secondary;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $red-error;
+    }
+  }
+
+  .content { color: $light-text-primary; font-size: 0.95rem; }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: $light-text-secondary;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+
+      &:hover { color: $green-primary; }
+      svg { font-size: 1.2rem; }
+    }
+  }
+
+  .commentsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    input {
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid $light-border;
+      width: 100%;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+
+      &:focus { outline: none; border-color: $green-primary; }
+    }
+
+    button {
+      align-self: flex-end;
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 6px;
+      background-color: $green-primary;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover { background-color: $green-dark; }
+    }
+  }
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.authorAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $light-bg;
+}
+
+.postTitle {
+  font-size: 0.9rem;
+  color: $light-text-secondary;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .post { padding: 0.75rem; }
+  .content { font-size: 0.9rem; }
+  .footer button { font-size: 0.85rem; }
+  .commentsSection input { font-size: 0.85rem; }
+}
+
+.commentItem {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.commentAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.commentContent {
+  background-color: $light-bg;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  width: 100%;
+
+  strong {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+.imageContainer {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.postImage {
+  width: 100%;
+  max-height: 500px; // Adjust as needed
+  object-fit: cover;
+  border-radius: $radius;
+  border: 1px solid $light-border;
+}

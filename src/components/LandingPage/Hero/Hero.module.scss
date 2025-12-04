@@ -1,0 +1,115 @@
+@use "sass:color";
+@use '../../../styles/LandingPage/variables' as *;
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 3rem;
+  background-color: $white;
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;// limita largura em telas muito grandes
+    margin: 0 auto;
+
+    .contentText {
+      flex: 1;
+      max-width: 50%;
+      text-align: flex;
+
+      h1 {
+        font-family: $font-title;
+        font-size: 2.8rem;
+        color: $green-dark;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      p {
+        font-family: $font-body;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: color.adjust($green-dark, $lightness: -20%);
+      }
+    }
+
+    .contentBanner {
+      flex: 1;
+      max-width: 50%;
+      height: auto;
+      border-radius: $radius;
+      object-fit: contain;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+
+      .signup {
+        background: #63a4ff;
+        padding: 0.5rem 1rem;
+        border-radius: $radius;
+        color: white;
+        cursor: pointer;
+        &:hover {
+          background: $gray-light;
+          color: $gray-dark;
+          border: 2px solid $gray-dark;
+        }
+      }
+    }
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    padding: 3rem 2rem;
+
+    .content {
+      flex-direction: column;
+      text-align: center;
+
+      .contentText, 
+      .contentBanner {
+        max-width: 100%;
+      }
+
+      .contentText h1 { font-size: 2.2rem; }
+      .contentText p { font-size: 1.1rem; }
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    padding: 2rem 1.2rem;
+
+    .content {
+      gap: 1.5rem;
+
+      .contentBanner { display: none; }
+
+      .contentText {
+        max-width: 100%;
+        text-align: center;
+
+        h1 { font-size: 1.6rem; }
+        p { font-size: 1rem; }
+      }
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+
+        .signup {
+          width: 100%;
+          padding: 1rem;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+// src/styles/variables.scss
+
+// Cores principais
+$green-primary: #22c55e; // verde principal
+$green-dark: #16a34a;    // verde escuro para hover/bordas
+$green-light: #dcfce7;   // verde suave para backgrounds
+$white: #ffffff;
+$gray-light: #f5f5f5;
+$gray-medium: #9ca3af;
+$gray-dark: #4b5563;
+$red-error: #ef4444;     // Cor para mensagens de erro
+
+// Fontes
+$font-primary: 'Inter', sans-serif;
+
+// Border radius
+$radius: 0.75rem;
+
+// Shadows
+$shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+$shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.12);
+$shadow-hard: 0 6px 16px rgba(0, 0, 0, 0.16);
+
+// Light Theme
+$light-bg: #F3F4F6;
+$light-surface: #ffffff;
+$light-text-primary: #1f2937;
+$light-text-secondary: #6b7280;
+$light-border: #e5e7eb;

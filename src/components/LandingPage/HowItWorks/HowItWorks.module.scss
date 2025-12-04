@@ -1,0 +1,81 @@
+@use "sass:color";
+@use '../../../styles/LandingPage/variables' as *;
+
+.how {
+  padding: 4rem 3rem;
+  text-align: center;
+  background: $white;
+
+  h2 {
+    font-size: 2.5rem;
+    font-family: $font-title;
+    color: $green-dark;
+    margin-bottom: 3rem;
+  }
+
+  .steps {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .step {
+    background: $white;
+    border-radius: $radius;
+    padding: 2rem;
+    max-width: 280px;
+    box-shadow: $shadow-light;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $green-dark;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: $green-dark;
+      font-family: $font-title;
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+    }
+
+    p {
+      font-family: $font-body;
+      color: color.adjust($green-dark, $lightness: -20%);
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .steps {
+      gap: 1.5rem;
+    }
+
+    .step {
+      max-width: 45%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 1.5rem;
+
+    .steps {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step {
+      max-width: 100%;
+      padding: 1.5rem;
+    }
+  }
+}

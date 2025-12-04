@@ -1,0 +1,76 @@
+$bg-light: #f9fafb;
+$border-light: #e5e7eb;
+$primary-green: #22c55e;
+$text-muted: #6b7280;
+$shadow-light: rgba(0,0,0,0.1);
+$font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+.feed {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: $font-family;
+}
+
+.postsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Skeleton ou mensagem de loading */
+.noPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: $bg-light;
+  border: 1px solid $border-light;
+  border-radius: 12px;
+  text-align: center;
+  color: $text-muted;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: background 0.3s;
+
+  &:hover { background: adjust($bg-light, 3%); }
+
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: $primary-green;
+  }
+
+  p { margin: 0; }
+}
+
+/* Animação fade-in / slide-up do post */
+.post-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.post-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.post-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.post-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .feed, .postsList { gap: 1rem; }
+  .noPosts { padding: 1.5rem; font-size: 0.95rem; .icon { font-size: 2rem; } }
+}

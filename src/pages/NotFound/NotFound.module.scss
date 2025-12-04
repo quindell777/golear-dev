@@ -1,0 +1,101 @@
+@use "sass:color";
+
+// 🎨 Paleta de cores inspirada no futebol
+$green-primary: #1db954; // verde vibrante
+$green-dark: #0b3d2e;
+$white: #ffffff;
+$gold: #ffd700;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, $green-dark, $green-primary);
+  padding: 1rem;
+}
+
+.card {
+  background: rgba($white, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); // 🔒 compatibilidade Safari
+  border-radius: 1.5rem;
+  padding: 2.5rem 3.5rem;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  color: $white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: clamp(3rem, 10vw, 8rem); // responsivo e suave
+  font-weight: 900;
+  margin: 0;
+  color: $white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.message {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  margin: 1.5rem 0;
+  line-height: 1.6;
+  max-width: 90%;
+}
+
+.button {
+  margin-top: 1rem;
+  padding: 0.9rem 2rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: $white;
+  color: $green-dark;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust($white, $lightness: -10%);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus {
+    outline: 2px solid color.scale($white, $lightness: -30%);
+    outline-offset: 4px;
+  }
+}
+
+/* 📱 Responsividade adicional */
+@media (max-width: 768px) {
+  .card {
+    padding: 2rem;
+    max-width: 90%;
+  }
+
+  .message {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .message {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .button {
+    width: 100%; // botão ocupa largura total no celular
+    padding: 0.8rem;
+  }
+}

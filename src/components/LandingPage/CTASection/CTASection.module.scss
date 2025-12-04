@@ -1,0 +1,56 @@
+@use "sass:color";
+@use '../../../styles/LandingPage/variables' as *;
+
+.cta {
+  position: relative;
+  padding: 10rem 3rem 4rem 3rem;
+  text-align: center;
+  background: $green-dark;
+  color: $white;
+  overflow: hidden;
+
+  h2 {
+    font-family: $font-title;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+
+  button {
+    background: $white;
+    color: $green-dark;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: $radius;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: color.adjust($white, $lightness: -5%);
+    }
+  }
+
+  .wave {
+    position: absolute;
+    top: -1px; // cobre a junção com a seção anterior
+    left: 0;
+    width: 100%;
+    height: 60px; // altura menor para ondulação mais suave
+    display: block;
+    z-index: 0;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 3.5rem 2rem;
+
+    h2 { font-size: 2.2rem; }
+    button { padding: 0.9rem 2rem; }
+  }
+
+  @media (max-width: 768px) {
+    padding: 6rem 1.5rem 3rem 1.5rem;
+
+    h2 { font-size: 1.8rem; }
+    button { width: 100%; padding: 1rem; }
+  }
+}
