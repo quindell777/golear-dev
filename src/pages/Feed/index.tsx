@@ -21,7 +21,7 @@ const Feed: React.FC = () => {
       const res = await request<PostsResponse>({ url: "/feed/api", method: "GET" });
       const postsWithMediaType = res.data.posts.map(post => ({
         ...post,
-        mediaType: post.imageUrl && post.imageUrl.includes(".mp4") ? "video" : "image",
+        mediaType: post.imageUrl && post.imageUrl.includes(".mp4") ? "video" as const : "image" as const,
       }));
       setPosts(postsWithMediaType || []);
     } catch (err: any) {
