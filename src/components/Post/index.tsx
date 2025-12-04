@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaComment, FaTrash } from "react-icons/fa";
 import type { Post as PostType, Comment } from "../../types";
 import { request } from "../../services/api";
+import { deleteComment } from "../../services/commentService";
 import styles from "./Post.module.scss";
 
 interface Props {
@@ -77,6 +78,21 @@ const PostCard: React.FC<Props> = ({ post, onToggleLike, onDelete, currentUserId
       setCommentCount((prev) => prev + 1);
     } catch (err) {
       console.error(`Erro ao adicionar comentário no post ID=${post.id}:`, err);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    if (!window.confirm("Tem certeza que deseja deletar este comentário?")) {
+      return;
+    }
+
+    try {
+      await deleteComment(post.id, commentId);
+      setComments(prevComments => prevComments.filter(c => c.id !== commentId));
+      setCommentCount(prev => prev - 1);
+    } catch (err: any) {
+      console.error(`❌ Erro ao deletar comentário ID=${commentId}:`, err);
+      alert(err.message || "Ocorreu um erro ao deletar o comentário. Tente novamente.");
     }
   };
 
@@ -167,6 +183,11 @@ const PostCard: React.FC<Props> = ({ post, onToggleLike, onDelete, currentUserId
                     </Link>
                     <p>{c.texto}</p>
                   </div>
+                  {(c.autor.id === currentUserId || post.usuarioId === currentUserId) && (
+                    <button onClick={() => handleDeleteComment(c.id)} className={styles.deleteButton} aria-label="Deletar comentário">
+                      <FaTrash />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

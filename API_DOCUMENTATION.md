@@ -1,11 +1,11 @@
-# Documentação da API - GoLear 
+# Documentação da API - GoLear (Rede Social de Futebol)
 
-Este documento descreve todos os endpoints da API para a rede social de futebol Golear.
+Este documento descreve todos os endpoints da API para a rede social de futebol GoLear.
 
 **URL Base:** `http://localhost:3000`
 **Status:** ✅ **FUNCIONANDO** - API operacional com banco SQLite real
 
---
+---
 
 ## 🔧 Status da API
 
@@ -23,14 +23,6 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
 }
 ```
 
-### Ping
-- **Endpoint:** `HEAD /ping`
-- **Descrição:** Verifica se a aplicação está online através de uma requisição HEAD.
-- **Autenticação:** Nenhuma
-- **Resposta de Sucesso (200 OK):**
-  - A resposta não contém corpo (body).
-  - Contém um cabeçalho `X-Status-Message: app online ainda`.
-
 ### Rota Raiz
 - **Endpoint:** `GET /`
 - **Descrição:** Lista todos os endpoints disponíveis e informações da API
@@ -43,14 +35,13 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
   "status": "funcionando",
   "database": "SQLite conectado",
   "endpoints": {
-    "health": "/health",
-    "ping": "/ping",
     "auth": "/auth/login/api, /auth/register/api",
-    "posts": "/posts, /posts/feed, /posts/:id/like",
+    "posts": "/posts, /posts/feed",
+    "PostDelete": "/PostDelete/:id",
+    "comments": "/posts/:id/comentarios",
     "feed": "/feed/api",
     "players": "/players/search",
     "profile": "/profile/api",
-    "recomendacoes": "/recomendacoes/api",
     "peneiras": "/peneiras/api",
     "analises": "/analises/api",
     "competicoes": "/competicoes/api",
@@ -82,13 +73,13 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
 
 #### Exemplo de Body para `role: "Jogador"`
 ```json
-{
-  "email": "jogador@email.com",
-  "password": "senha123",
-  "role": "Jogador",
-  "nome": "João Silva",
-  "posicao": "Atacante"
-}
+  {
+    "email": "jogador@email.com",
+    "password": "senha123",
+    "role": "Jogador",
+    "nome": "João Silva",
+    "posicao": "Atacante"
+  }
 ```
 
 #### Exemplo de Body para `role: "Clube"`
@@ -218,34 +209,12 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
     "titulo": "Meu primeiro post",
     "conteudo": "Ótimo dia de treino hoje!",
     "usuarioId": 1,
-    "likesCount": 0,
     "createdAt": "2025-09-21T02:04:58.230Z"
   }
 }
 ```
 
-### 2. Curtir um Post
-- **Endpoint:** `POST /posts/:id/like`
-- **Descrição:** Adiciona um like a um post. O usuário não pode curtir o mesmo post duas vezes.
-- **Autenticação:** **Obrigatória** (Bearer Token)
-- **Parâmetros da URL:**
-  - `id` (integer, obrigatório): O ID do post a ser curtido.
-- **Resposta de Sucesso (200 OK):**
-```json
-{
-  "success": true,
-  "message": "Post curtido com sucesso"
-}
-```
-- **Resposta de Erro (400 Bad Request):**
-```json
-{
-  "success": false,
-  "message": "Você já curtiu este post"
-}
-```
-
-### 3. Obter Feed Principal
+### 2. Obter Feed Principal
 - **Endpoint:** `GET /feed/api`
 - **Descrição:** Retorna o feed de posts (últimos 20 posts)
 - **Autenticação:** Nenhuma
@@ -260,7 +229,6 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
       "titulo": "Meu primeiro post",
       "conteudo": "Ótimo dia de treino hoje!",
       "usuarioId": 1,
-      "likesCount": 0,
       "createdAt": "2025-09-21T02:04:58.230Z"
     }
   ],
@@ -268,7 +236,7 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
 }
 ```
 
-### 4. Listar Todos os Posts
+### 3. Listar Todos os Posts
 - **Endpoint:** `GET /posts`
 - **Descrição:** Lista todos os posts do sistema
 - **Autenticação:** Nenhuma
@@ -283,11 +251,59 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
       "titulo": "Meu primeiro post",
       "conteudo": "Ótimo dia de treino hoje!",
       "usuarioId": 1,
-      "likesCount": 0,
       "createdAt": "2025-09-21T02:04:58.230Z"
     }
   ],
   "total": 1
+}
+```
+
+- **Endpoint:** `POST /posts/:id/comentarios`
+- **Endpoint:** `GET /posts/:id/comentarios`
+- **Endpoint:** `DELETE /posts/:postId/comentarios/:commentId`
+- **Descrição:** Cria, busca e deleta um comentário em um post
+- **Autenticação:** **Obrigatória** (Bearer Token) para criar e deletar
+- **Corpo da Requisição (Body) para criar:** `JSON`
+```json
+{
+  "texto": "Ótimo post!"
+}
+```
+- **Resposta de Sucesso (201 Created) para criar:**
+```json
+{
+  "success": true,
+  "message": "Comentário criado com sucesso.",
+  "comentario": {
+    "id": 1,
+    "texto": "Ótimo post!",
+    "createdAt": "2025-09-21T02:04:58.230Z",
+    "autor": {
+        "id": 1,
+        "nome": "João Silva",
+        "role": "Jogador",
+        "profilePictureUrl": null
+    }
+  }
+}
+```
+- **Resposta de Sucesso (200 OK) para deletar:**
+```json
+{
+  "success": true,
+  "message": "Comment deleted successfully"
+}
+```
+
+### 4. Deletar um Post
+- **Endpoint:** `DELETE /PostDelete/:id`
+- **Descrição:** Deleta um post do sistema
+- **Autenticação:** **Obrigatória** (Bearer Token)
+- **Resposta de Sucesso (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Post deleted successfully"
 }
 ```
 
@@ -321,32 +337,7 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
 }
 ```
 
-### 2. Atualizar Foto de Perfil
-- **Endpoint:** `PUT /perfil/foto`
-- **Descrição:** Permite que um usuário logado adicione ou atualize a URL da sua foto de perfil.
-- **Autenticação:** **Obrigatória** (Bearer Token)
-- **Corpo da Requisição (Body):** `JSON`
-```json
-{
-  "profilePictureUrl": "https://example.com/path/to/new_image.jpg"
-}
-```
-- **Resposta de Sucesso (200 OK):**
-```json
-{
-  "success": true,
-  "message": "Profile picture updated successfully"
-}
-```
-- **Resposta de Erro (400 Bad Request):**
-```json
-{
-  "success": false,
-  "message": "profilePictureUrl is required"
-}
-```
-
-### 3. Buscar Jogadores
+### 2. Buscar Jogadores
 - **Endpoint:** `GET /players/search`
 - **Descrição:** Busca jogadores com filtros
 - **Autenticação:** **Obrigatória** (Bearer Token)
@@ -381,90 +372,6 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
 }
 ```
 
-### 4. Obter Recomendações de Perfis
-- **Endpoint:** `GET /recomendacoes/api`
-- **Descrição:** Retorna 5 perfis aleatórios de qualquer tipo (Jogador, Clube ou Olheiro).
-- **Autenticação:** Nenhuma
-- **Resposta de Sucesso (200 OK):**
-```json
-{
-  "success": true,
-  "message": "Recomendações carregadas com sucesso",
-  "recommendations": [
-    {
-      "user": {
-        "id": 1,
-        "email": "jogador@email.com",
-        "role": "Jogador",
-        "profilePictureUrl": null
-      },
-      "profile": {
-        "nome": "João Silva",
-        "posicao": "Atacante"
-      }
-    },
-    {
-      "user": {
-        "id": 2,
-        "email": "clube@email.com",
-        "role": "Clube",
-        "profilePictureUrl": null
-      },
-      "profile": {
-        "nome": "São Paulo FC",
-        "cidade": "São Paulo"
-      }
-    }
-  ]
-}
-```
-
----
-
-## 📰 Notícias
-
-### 1. Buscar Notícias de Futebol
-- **Endpoint:** `GET /noticias`
-- **Descrição:** Busca notícias de futebol a nível nacional (Brasil) de uma fonte externa (APITube.io).
-- **Autenticação:** Nenhuma (a autenticação é feita com a API externa através de uma chave no servidor).
-- **Resposta de Sucesso (200 OK):**
-```json
-{
-  "success": true,
-  "message": "Notícias de futebol carregadas com sucesso",
-  "source": "APITube.io",
-  "data": {
-    "total_articles": 12345,
-    "articles": [
-      {
-        "title": "Título da Notícia de Futebol",
-        "description": "Descrição da notícia...",
-        "url": "https://example.com/news/article",
-        "source": {
-          "name": "Nome da Fonte",
-          "domain": "example.com"
-        },
-        "published_at": "2025-10-02T18:00:00Z"
-      }
-    ]
-  }
-}
-```
-- **Resposta de Erro (500 Internal Server Error):**
-```json
-{
-  "success": false,
-  "message": "API token for news service is not configured."
-}
-```
-- **Resposta de Erro (502 Bad Gateway):**
-```json
-{
-  "success": false,
-  "message": "Error fetching news from the external provider."
-}
-```
-
 ---
 
 ## 🔍 Peneiras
@@ -489,36 +396,6 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
     }
   ],
   "total": 1
-}
-```
-
-### 2. Criar Peneira
-- **Endpoint:** `POST /peneiras`
-- **Descrição:** Cria uma nova peneira.
-- **Autenticação:** **Obrigatória** (Bearer Token)
-- **Autorização:** Apenas usuários com a role `Olheiro`.
-- **Corpo da Requisição (Body):** `JSON`
-```json
-{
-  "titulo": "Peneira para Goleiros",
-  "descricao": "Buscamos goleiros nascidos entre 2005 e 2007.",
-  "local": "CT do Clube, São Paulo - SP",
-  "data_evento": "2026-01-20T09:00:00.000Z"
-}
-```
-- **Resposta de Sucesso (201 Created):**
-```json
-{
-  "success": true,
-  "message": "Peneira criada com sucesso",
-  "peneiraId": 2
-}
-```
-- **Resposta de Erro (403 Forbidden):**
-```json
-{
-  "success": false,
-  "message": "Forbidden: Insufficient permissions"
 }
 ```
 
@@ -555,36 +432,6 @@ Este documento descreve todos os endpoints da API para a rede social de futebol 
   "message": "Competições listadas com sucesso",
   "competicoes": [],
   "total": 0
-}
-```
-
-### 2. Criar Competição
-- **Endpoint:** `POST /competicoes`
-- **Descrição:** Cria uma nova competição.
-- **Autenticação:** **Obrigatória** (Bearer Token)
-- **Autorização:** Apenas usuários com a role `Clube`.
-- **Corpo da Requisição (Body):** `JSON`
-```json
-{
-  "nome": "Copa Sub-20 de Verão",
-  "descricao": "Torneio amistoso para equipes de base.",
-  "data_inicio": "2026-01-15T00:00:00.000Z",
-  "data_fim": "2026-02-01T23:59:59.000Z"
-}
-```
-- **Resposta de Sucesso (201 Created):**
-```json
-{
-  "success": true,
-  "message": "Competição criada com sucesso",
-  "competicaoId": 1
-}
-```
-- **Resposta de Erro (403 Forbidden):**
-```json
-{
-  "success": false,
-  "message": "Forbidden: Insufficient permissions"
 }
 ```
 
@@ -979,4 +826,4 @@ Para dúvidas ou problemas com a API, verifique:
 
 **Última atualização:** 21 de Setembro de 2025  
 **Versão da API:** 1.0.0  
-**Status:** ✅ OPERACIONAL.
+**Status:** ✅ OPERACIONAL
