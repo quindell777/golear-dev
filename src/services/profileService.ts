@@ -51,26 +51,16 @@ export async function getConnectionStatus(targetUserId: string): Promise<boolean
  * Conecta (segue) um usuário.
  * @param targetUserId ID do usuário a ser seguido
  */
-export async function connectUser(_targetUserId: string): Promise<any> {
-  // O endpoint POST /usuarios/:id/conectar não está documentado na API.
-  // A funcionalidade foi desativada temporariamente no frontend para evitar erros.
-  throw new Error("A funcionalidade de conectar-se com usuários não está implementada no backend.");
-  /*
+export async function connectUser(targetUserId: string): Promise<any> {
   const response = await api.post(`/usuarios/${targetUserId}/conectar`);
   return response.data;
-  */
 }
 
 /**
  * Desconecta (deixa de seguir) um usuário.
  * @param targetUserId ID do usuário a ser deixado de seguir
  */
-export async function disconnectUser(_targetUserId: string): Promise<any> {
-  // O endpoint DELETE /usuarios/:id/desconectar não está documentado na API.
-  // A funcionalidade foi desativada temporariamente no frontend para evitar erros.
-  throw new Error("A funcionalidade de desconectar-se de usuários não está implementada no backend.");
-  /*
+export async function disconnectUser(targetUserId: string): Promise<any> {
   const response = await api.delete(`/usuarios/${targetUserId}/desconectar`);
   return response.data;
-  */
 }
