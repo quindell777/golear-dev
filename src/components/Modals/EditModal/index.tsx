@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./EditModal.module.scss";
-// Certifique-se de que na sua interface Profile existe: atuacao?: string[];
 import type { Profile } from "../../../types";
 
 interface EditModalProps {
@@ -9,6 +8,7 @@ interface EditModalProps {
   onSave: () => void;
   onCancel: () => void;
 }
+
 
 // 1. Definição das Constantes
 const MAX_TOTAL_POINTS = 45;
@@ -20,6 +20,7 @@ const STAT_LABELS = [
   "Defesa",
   "Finalização",
 ];
+
 const INITIAL_STATS: number[] = STAT_LABELS.map(() => 0); // Array limpo de 6 zeros
 
 const EditModal: React.FC<EditModalProps> = ({
@@ -28,10 +29,12 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
   onCancel,
 }) => {
-  // Alterado 'value: any' para ser mais genérico, mas seguro
+
   const handleChange = (field: keyof Profile, value: any) => {
     setEditData({ ...editData, [field]: value });
   };
+
+
 
   const handleSaveClick = () => {
     if (!editData.nome || !editData.role) {
@@ -41,51 +44,58 @@ const EditModal: React.FC<EditModalProps> = ({
     onSave();
   };
 
+
+
   const isJogador = editData.role === "Jogador";
   const isClube = editData.role === "Clube";
   const isOlheiro = editData.role === "Olheiro";
   const isFa = editData.role === "Fã";
   const isProfissional = editData.role === "Profissional";
 
-  // 2. Criação do array de estatísticas seguro para uso
+
+
+  // 2. Criação do array de estatísticas seguro para uso (fora da função handleStatChange)
+  // Isso resolve a maioria dos warnings de uso global.
   const statsForCalculation: number[] = (editData.estatisticas || INITIAL_STATS).map(
-    (stat) => stat ?? 0
+    (stat) => stat ?? 0 // Garante que todos os elementos são números
   );
 
-  // 3. Cálculo para exibição no JSX (Contador)
+  // 3. Cálculo para exibição no JSX (Contador) - CORRIGIDO
   const totalPointsUsed = statsForCalculation.reduce(
-    (acc: number, val: number) => acc + val,
+    (acc: number, val: number) => acc + val, // TS infere acc como number, mas forçamos val como number
     0
   );
   const pointsRemaining = MAX_TOTAL_POINTS - totalPointsUsed;
 
-  // 4. Função de manipulação de estatísticas
+  // 4. Função de manipulação de estatísticas ATUALIZADA e CORRIGIDA
   const handleStatChange = (index: number, attemptedNewValue: number) => {
+    // 4.1. Garante que o valor individual está entre 0 e 10
     let finalNewValue = Math.max(0, Math.min(10, attemptedNewValue));
+    // 4.2. Obtém as estatísticas atuais de forma segura
     const currentStats = [...statsForCalculation];
-
+    // 4.3. Calcula os pontos usados nas OUTRAS estatísticas
     const totalUsedExcludingCurrent = currentStats.reduce(
       (acc: number, val: number, idx: number) => {
+        // CORREÇÃO: Usamos o tipo number para o acumulador 'acc' e 'val' para resolver o bug
         return idx === index ? acc : acc + val;
       },
       0
     );
-
+    // 4.4. Calcula o total de pontos disponíveis para gasto
     const pointsAvailable = MAX_TOTAL_POINTS - totalUsedExcludingCurrent;
-
+    // 4.5. Aplica a restrição de limite total
     if (finalNewValue > pointsAvailable) {
       finalNewValue = Math.max(0, Math.min(10, pointsAvailable));
     }
-
+    // 4.6. Atualiza o array de estatísticas
     currentStats[index] = finalNewValue;
+    // 4.7. Atualiza o estado
     handleChange("estatisticas", currentStats);
   };
-
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <h2>Editar Perfil</h2>
-
         {/* Nome e Role lado a lado */}
         <div className={styles.section}>
           <label>
@@ -96,7 +106,6 @@ const EditModal: React.FC<EditModalProps> = ({
               onChange={(e) => handleChange("nome", e.target.value)}
             />
           </label>
-
           <label>
             Cargo / Role *
             <select
@@ -114,7 +123,6 @@ const EditModal: React.FC<EditModalProps> = ({
             </select>
           </label>
         </div>
-
         {/* Bio full width */}
         <div className={`${styles.section} ${styles.fullWidth}`}>
           <label>
@@ -125,7 +133,6 @@ const EditModal: React.FC<EditModalProps> = ({
             />
           </label>
         </div>
-
         {/* Social Media */}
         <div className={styles.section}>
           <label>
@@ -153,7 +160,6 @@ const EditModal: React.FC<EditModalProps> = ({
             />
           </label>
         </div>
-
         {/* Jogador */}
         {isJogador && (
           <>
@@ -166,7 +172,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   onChange={(e) => handleChange("cidade", e.target.value)}
                 />
               </label>
-
               <label>
                 Posição principal
                 <input
@@ -177,7 +182,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   }
                 />
               </label>
-
               <label>
                 Posição secundária
                 <input
@@ -206,7 +210,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   <option value="Ambidestro">Ambidestro</option>
                 </select>
               </label>
-
               <label>
                 Altura (cm)
                 <input
@@ -215,7 +218,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   onChange={(e) => handleChange("altura", Number(e.target.value))}
                 />
               </label>
-
               <label>
                 Peso (kg)
                 <input
@@ -224,7 +226,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   onChange={(e) => handleChange("peso", Number(e.target.value))}
                 />
               </label>
-
               <label>
                 Idade
                 <input
@@ -235,29 +236,20 @@ const EditModal: React.FC<EditModalProps> = ({
                   onChange={(e) => handleChange("idade", Number(e.target.value))}
                 />
               </label>
-
-              {/* --- CORREÇÃO AQUI: Mudança de tipoAtuacao para atuacao --- */}
               <label>
                 Atua em:
                 <div className={styles.checkboxGroup}>
                   {["Futsal", "Society", "Campo"].map((tipo) => (
-                    <label key={tipo} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <label key={tipo}>
                       <input
                         type="checkbox"
-                        // Verifica se o array 'atuacao' contém o tipo. Usa [] como fallback.
-                        // Obs: Se o TypeScript reclamar de 'atuacao', verifique sua interface Profile.
-                        checked={(editData.atuacao || []).includes(tipo)}
+                        checked={(editData.tipoAtuacao || []).includes(tipo)}
                         onChange={() => {
-                          // Pega o array atual ou vazio
-                          const currentAtuacao = editData.atuacao || [];
-                          
-                          // Lógica: se já tem, remove. Se não tem, adiciona.
-                          const newAtuacao = currentAtuacao.includes(tipo)
-                            ? currentAtuacao.filter((item) => item !== tipo)
-                            : [...currentAtuacao, tipo];
-                          
-                          // Salva no campo 'atuacao' para o backend
-                          handleChange("atuacao", newAtuacao);
+                          const currentTipoAtuacao = editData.tipoAtuacao || [];
+                          const newTipoAtuacao = currentTipoAtuacao.includes(tipo)
+                            ? currentTipoAtuacao.filter((item) => item !== tipo)
+                            : [...currentTipoAtuacao, tipo];
+                          handleChange("tipoAtuacao", newTipoAtuacao);
                         }}
                       />
                       {tipo}
@@ -265,9 +257,7 @@ const EditModal: React.FC<EditModalProps> = ({
                   ))}
                 </div>
               </label>
-              {/* --------------------------------------------------------- */}
             </div>
-
             <div className={`${styles.section} ${styles.fullWidth}`}>
               <label>
                 Estilo de jogo / Características
@@ -278,7 +268,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   }
                 />
               </label>
-
               <label>
                 Referência (Jogador que se inspira)
                 <input
@@ -288,18 +277,16 @@ const EditModal: React.FC<EditModalProps> = ({
                 />
               </label>
             </div>
-
             {/* Contador de Pontos */}
             <div className={styles.statsHeader}>
                 <h3>Distribuição de Habilidades</h3>
                 <p>
-                    Pontos disponíveis: 
+                    Pontos disponíveis:
                     <span className={styles.pointsCounter}>
                         {pointsRemaining} / {MAX_TOTAL_POINTS}
                     </span>
                 </p>
             </div>
-
             <div className={styles.statsContainer}>
               {STAT_LABELS.map(
                 (label, index) => (
@@ -309,6 +296,7 @@ const EditModal: React.FC<EditModalProps> = ({
                       type="number"
                       min={0}
                       max={10}
+                      // Renderiza o valor seguro do array 'statsForCalculation'
                       value={statsForCalculation[index]}
                       onChange={(e) =>
                         handleStatChange(index, Number(e.target.value))
@@ -322,7 +310,6 @@ const EditModal: React.FC<EditModalProps> = ({
             </div>
           </>
         )}
-
         {/* Clube */}
         {isClube && (
           <div className={`${styles.section} ${styles.fullWidth}`}>
@@ -412,7 +399,7 @@ const EditModal: React.FC<EditModalProps> = ({
               />
             </label>
             <label>
-              trbalha para qual clube(s) ou agência(s)
+              trabalha para qual clube(s) ou agência(s)
               <textarea
                 value={editData.clubeOlheiro || ""}
                 onChange={(e) => handleChange("clubeOlheiro", e.target.value)}
