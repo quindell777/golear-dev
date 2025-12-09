@@ -6,7 +6,7 @@
   "builds": [
     {
       "src": "package.json", // O Vercel vai usar package.json para detectar build scripts
-      "use": "@vercel/static-build", // Indica que é um site estático (SPA) construído com Vite
+      "use": "@vercel/static-build", // Indica que é um site estático (SP) construído com Vite
       "config": { 
         "distDir": "dist" // Diretório de saída do build do Vite (padrão é 'dist')
       }
