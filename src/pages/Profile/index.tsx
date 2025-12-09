@@ -251,6 +251,29 @@ const ProfilePage: React.FC = () => {
                   {profile.posicao && <p>Posição principal: **{profile.posicao}**</p>}
                   {profile.posicaoSecundaria && <p>Posição secundária: **{profile.posicaoSecundaria}**</p>}
                   {profile.areaAtuacao && <p>Área de Atuação: **{profile.areaAtuacao}**</p>}
+
+                  {profile.atuacao && (
+                    <div>
+                      <h3 style={{ marginTop: '1rem' }}>Atuação</h3>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        {(() => {
+                          try {
+                            const atuacaoArray = JSON.parse(profile.atuacao);
+                            if (Array.isArray(atuacaoArray)) {
+                              return atuacaoArray.map((item: string) => (
+                                <span key={item} className={styles.atuacaoTag}>
+                                  {item}
+                                </span>
+                              ));
+                            }
+                          } catch (error) {
+                            console.error("Failed to parse atuacao:", error);
+                            return null;
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Módulo B: Estilo de Jogo e Especialização */}
