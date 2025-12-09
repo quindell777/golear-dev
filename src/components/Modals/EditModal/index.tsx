@@ -250,6 +250,13 @@ const EditModal: React.FC<EditModalProps> = ({
                   onChange={(e) => handleChange("referencia", e.target.value)}
                 />
               </label>
+              <label>
+                Histórico de Clubes
+                <textarea
+                  value={editData.historicoClubes || ""}
+                  onChange={(e) => handleChange("historicoClubes", e.target.value)}
+                />
+              </label>
             </div>
             {/* Contador de Pontos */}
             <div className={styles.statsHeader}>
