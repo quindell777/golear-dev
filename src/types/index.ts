@@ -163,6 +163,7 @@ export interface Profile {
   localizacao?: string;                 
   cidade?: string;                      
   regiao?: string;                      
+  atuacao?: string; // Adicionado para lidar com o campo do backend que é uma string JSON.
 
   // FK
   UserId?: number;                      
