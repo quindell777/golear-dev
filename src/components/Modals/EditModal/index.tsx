@@ -133,33 +133,7 @@ const EditModal: React.FC<EditModalProps> = ({
             />
           </label>
         </div>
-        {/* Social Media */}
-        <div className={styles.section}>
-          <label>
-            WhatsApp
-            <input
-              type="text"
-              value={editData.whatsapp || ""}
-              onChange={(e) => handleChange("whatsapp", e.target.value)}
-            />
-          </label>
-          <label>
-            Instagram
-            <input
-              type="text"
-              value={editData.instagram || ""}
-              onChange={(e) => handleChange("instagram", e.target.value)}
-            />
-          </label>
-          <label>
-            Twitter / X
-            <input
-              type="text"
-              value={editData.twitter || ""}
-              onChange={(e) => handleChange("twitter", e.target.value)}
-            />
-          </label>
-        </div>
+
         {/* Jogador */}
         {isJogador && (
           <>
@@ -307,6 +281,32 @@ const EditModal: React.FC<EditModalProps> = ({
                 )
               )}
               <p>Tente ser o mais sincero possível com suas habilidades</p>
+            </div>
+            <div className={styles.section}>
+              <label>
+                WhatsApp
+                <input
+                  type="text"
+                  value={editData.whatsapp || ""}
+                  onChange={(e) => handleChange("whatsapp", e.target.value)}
+                />
+              </label>
+              <label>
+                Instagram
+                <input
+                  type="text"
+                  value={editData.instagram || ""}
+                  onChange={(e) => handleChange("instagram", e.target.value)}
+                />
+              </label>
+              <label>
+                Twitter / X
+                <input
+                  type="text"
+                  value={editData.twitter || ""}
+                  onChange={(e) => handleChange("twitter", e.target.value)}
+                />
+              </label>
             </div>
           </>
         )}
@@ -469,6 +469,35 @@ const EditModal: React.FC<EditModalProps> = ({
               <textarea
                 value={editData.experiencia || ""}
                 onChange={(e) => handleChange("experiencia", e.target.value)}
+              />
+            </label>
+          </div>
+        )}
+
+        {isProfissional && (
+          <div className={styles.section}>
+            <label>
+              WhatsApp
+              <input
+                type="text"
+                value={editData.whatsapp || ""}
+                onChange={(e) => handleChange("whatsapp", e.target.value)}
+              />
+            </label>
+            <label>
+              Instagram
+              <input
+                type="text"
+                value={editData.instagram || ""}
+                onChange={(e) => handleChange("instagram", e.target.value)}
+              />
+            </label>
+            <label>
+              Twitter / X
+              <input
+                type="text"
+                value={editData.twitter || ""}
+                onChange={(e) => handleChange("twitter", e.target.value)}
               />
             </label>
           </div>

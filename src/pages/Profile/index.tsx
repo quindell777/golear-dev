@@ -336,15 +336,58 @@ const ProfilePage: React.FC = () => {
               </div>
             )}
 
-            {/* ---------------------------------------------------- */}
-            {/* 💼 SEÇÕES ESPECÍFICAS DE PROFISSIONAL (se houver detalhes) */}
-            {/* ---------------------------------------------------- */}
-            {profile.role === "Profissional" && profile.especializacao && (
+            {profile.role === "Profissional" && (
               <div className={styles.module}>
                 <h2>Detalhes Profissionais</h2>
-                <p>Categoria: **{profile.especializacao}**</p>
+                {profile.especializacao && <p>Categoria: **{profile.especializacao}**</p>}
+                
+                {/* WHATSAPP como link para wa.me */}
+                {profile.whatsapp && (
+                  <p>
+                    WhatsApp:{" "}
+                    <a
+                      href={`https://wa.me/${profile.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {profile.whatsapp}
+                    </a>
+                  </p>
+                )}
+
+                {/* INSTAGRAM como link para perfil */}
+                {profile.instagram && (
+                  <p>
+                    Instagram:{" "}
+                    <a
+                      href={`https://www.instagram.com/${profile.instagram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{profile.instagram}
+                    </a>
+                  </p>
+                )}
+
+                {/* X (TWITTER) como link para perfil */}
+                {profile.twitter && (
+                  <p>
+                    X (Twitter):{" "}
+                    <a
+                      href={`https://twitter.com/${profile.twitter}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{profile.twitter}
+                    </a>
+                  </p>
+                )}
               </div>
             )}
+            
+            {/* ---------------------------------------------------- */}
+            {/* 🔎 SEÇÕES ESPECÍFICAS DE OLHEIRO */}
+            {/* ---------------------------------------------------- */}
             
           </div>
         </main>
