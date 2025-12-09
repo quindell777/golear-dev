@@ -331,7 +331,7 @@ const EditModal: React.FC<EditModalProps> = ({
       historico_Clube: e.target.value.split("\n")
     })
   }
-/>
+/></label>
           </div>label>
           </div>/label>
             <label>
