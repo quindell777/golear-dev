@@ -243,23 +243,23 @@ const ProfilePage: React.FC = () => {
                 {/* Módulo A: Detalhes Físicos e Posição */}
                 <div className={styles.module}>
                   <h2>Características e Posição</h2>
-                  {profile.idade && <p>Idade: **{profile.idade} anos**</p>}
-                  {profile.peso && <p>Peso: **{profile.peso} kg**</p>}
-                  {profile.altura && <p>Altura: **{profile.altura} cm**</p>}
+                  {profile.idade && <p>Idade: {profile.idade} anos</p>}
+                  {profile.peso && <p>Peso: {profile.peso} kg</p>}
+                  {profile.altura && <p>Altura: {profile.altura} cm</p>}
                   
                   <h3 style={{ marginTop: '1rem' }}>Posicionamento</h3>
-                  {profile.posicao && <p>Posição principal: **{profile.posicao}**</p>}
-                  {profile.posicaoSecundaria && <p>Posição secundária: **{profile.posicaoSecundaria}**</p>}
-                  {profile.areaAtuacao && <p>Área de Atuação: **{profile.areaAtuacao}**</p>}
+                  {profile.posicao && <p>Posição principal: {profile.posicao}</p>}
+                  {profile.posicaoSecundaria && <p>Posição secundária: {profile.posicaoSecundaria}</p>}
+                  {profile.areaAtuacao && <p>Área de Atuação: {profile.areaAtuacao}</p>}
                 </div>
 
                 {/* Módulo B: Estilo de Jogo e Especialização */}
                 <div className={styles.module}>
                   <h2>Estilo de Jogo</h2>
-                  {profile.dominantFoot && <p>Pé dominante: **{profile.dominantFoot}**</p>}
-                  {profile.estiloJogo && <p>Estilo de Jogo: **{profile.estiloJogo}**</p>}
-                  {profile.especializacao && <p>Especialização: **{profile.especializacao}**</p>}
-                  {profile.referencia && <p>Referência: **{profile.referencia}**</p>}
+                  {profile.dominantFoot && <p>Pé dominante: {profile.dominantFoot}</p>}
+                  {profile.estiloJogo && <p>Estilo de Jogo: {profile.estiloJogo}</p>}
+                  {profile.especializacao && <p>Especialização: {profile.especializacao}</p>}
+                  {profile.referencia && <p>Referência: {profile.referencia}</p>}
                 </div>
 
                 {/* Módulo C: Histórico Profissional */}
@@ -278,13 +278,13 @@ const ProfilePage: React.FC = () => {
             {profile.role === "Clube" && (
               <div className={styles.module}>
                 <h2>Detalhes de Atuação</h2>
-                {profile.posicaoProcurada && <p>Posição procurada: **{profile.posicaoProcurada}**</p>}
+                {profile.posicaoProcurada && <p>Posição procurada: {profile.posicaoProcurada}</p>}
                 
                 <h3 style={{ marginTop: '1rem' }}>Estrutura e Competições</h3>
-                {profile.categoriaClube && <p>Categoria: **{profile.categoriaClube}**</p>}
-                {profile.divisao && <p>Divisão em que atua: **{profile.divisao}**</p>}
-                {profile.competicoesParticipa && <p>Competições: **{profile.competicoesParticipa}**</p>}
-                {profile.titulos && <p>Títulos conquistados: **{profile.titulos}**</p>}
+                {profile.categoriaClube && <p>Categoria: {profile.categoriaClube}</p>}
+                {profile.divisao && <p>Divisão em que atua: {profile.divisao}</p>}
+                {profile.competicoesParticipa && <p>Competições: {profile.competicoesParticipa}</p>}
+                {profile.titulos && <p>Títulos conquistados: {profile.titulos}</p>}
               </div>
             )}
             
@@ -294,10 +294,10 @@ const ProfilePage: React.FC = () => {
             {profile.role === "Olheiro" && (
               <div className={styles.module}>
                 <h2>Detalhes de Atuação</h2>
-                {profile.regiao && <p>Região de Atuação: **{profile.regiao}**</p>}
-                {profile.especializacao && <p>Especialização: **{profile.especializacao}**</p>}
-                {profile.clubeOlheiro && <p>Clube em que trabalha: **{profile.clubeOlheiro}**</p>}
-                {profile.nivelAtuacaoOlheiro && <p>Nível de Atuação: **{profile.nivelAtuacaoOlheiro}**</p>}
+                {profile.regiao && <p>Região de Atuação: {profile.regiao}</p>}
+                {profile.especializacao && <p>Especialização: {profile.especializacao}</p>}
+                {profile.clubeOlheiro && <p>Clube em que trabalha: {profile.clubeOlheiro}</p>}
+                {profile.nivelAtuacaoOlheiro && <p>Nível de Atuação: {profile.nivelAtuacaoOlheiro}</p>}
               </div>
             )}
             
