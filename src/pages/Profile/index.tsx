@@ -333,6 +333,48 @@ const ProfilePage: React.FC = () => {
                 {profile.time_coracao && <p>Time do Coração: {profile.time_coracao}</p>}
                 {profile.jogador_favorito && <p>Jogador favorito: {profile.jogador_favorito}</p>}
                 {profile.especializacao && <p>Interesses: {profile.especializacao}</p>}
+
+                {/* WHATSAPP como link para wa.me */}
+                {profile.whatsapp && (
+                  <p>
+                    WhatsApp:{" "}
+                    <a
+                      href={`https://wa.me/${profile.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {profile.whatsapp}
+                    </a>
+                  </p>
+                )}
+
+                {/* INSTAGRAM como link para perfil */}
+                {profile.instagram && (
+                  <p>
+                    Instagram:{" "}
+                    <a
+                      href={`https://www.instagram.com/${profile.instagram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{profile.instagram}
+                    </a>
+                  </p>
+                )}
+
+                {/* X (TWITTER) como link para perfil */}
+                {profile.twitter && (
+                  <p>
+                    X (Twitter):{" "}
+                    <a
+                      href={`https://twitter.com/${profile.twitter}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @{profile.twitter}
+                    </a>
+                  </p>
+                )}
               </div>
             )}
 

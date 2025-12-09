@@ -329,14 +329,24 @@ const EditModal: React.FC<EditModalProps> = ({
     setEditData({
       ...editData,
       historico_Clube: e.target.value.split("\n")
+      })
     })
   }
+<<<<<<< Updated upstream
 /></label>
           </div>label>
           </div>/label>
             <label>
               Modalidade de atuação
               <input
+=======
+/>
+            </label>
+          </div>
+          <label>
+            Modalidade de atuação
+            <input
+>>>>>>> Stashed changes
                 type="text"
                 value={editData.especializacao || ""}
                 onChange={(e) => handleChange("especializacao", e.target.value)}
@@ -455,6 +465,32 @@ const EditModal: React.FC<EditModalProps> = ({
                 onChange={(e) => handleChange("especializacao", e.target.value)}
               />
             </label>
+            <div className={styles.section}>
+              <label>
+                WhatsApp
+                <input
+                  type="text"
+                  value={editData.whatsapp || ""}
+                  onChange={(e) => handleChange("whatsapp", e.target.value)}
+                />
+              </label>
+              <label>
+                Instagram
+                <input
+                  type="text"
+                  value={editData.instagram || ""}
+                  onChange={(e) => handleChange("instagram", e.target.value)}
+                />
+              </label>
+              <label>
+                Twitter / X
+                <input
+                  type="text"
+                  value={editData.twitter || ""}
+                  onChange={(e) => handleChange("twitter", e.target.value)}
+                />
+              </label>
+            </div>
           </div>
         )}
 
