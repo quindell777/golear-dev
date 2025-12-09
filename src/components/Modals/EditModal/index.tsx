@@ -321,6 +321,18 @@ const EditModal: React.FC<EditModalProps> = ({
                 onChange={(e) => handleChange("regiao", e.target.value)}
               />
             </label>
+            <label>historico_Clube</label>
+<label>historico_Clube</label>
+<textarea
+  value={editData.historico_Clube || ""}
+  onChange={(e) =>
+    setEditData({
+      ...editData,
+      historico_Clube: e.target.value.split("\n")
+    })
+  }
+/>
+          </div>/label>
             <label>
               Modalidade de atuação
               <input
