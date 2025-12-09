@@ -333,6 +333,7 @@ const EditModal: React.FC<EditModalProps> = ({
     })
   }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /></label>
           </div>label>
           </div>/label>
@@ -340,12 +341,17 @@ const EditModal: React.FC<EditModalProps> = ({
               Modalidade de atuação
               <input
 =======
+=======
+>>>>>>> Stashed changes
 />
             </label>
           </div>
           <label>
             Modalidade de atuação
             <input
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 type="text"
                 value={editData.especializacao || ""}
