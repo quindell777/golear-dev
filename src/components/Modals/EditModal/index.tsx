@@ -332,6 +332,7 @@ const EditModal: React.FC<EditModalProps> = ({
     })
   }
 />
+          </div>label>
           </div>/label>
             <label>
               Modalidade de atuação
