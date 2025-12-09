@@ -321,38 +321,18 @@ const EditModal: React.FC<EditModalProps> = ({
                 onChange={(e) => handleChange("regiao", e.target.value)}
               />
             </label>
-            <label>historico_Clube</label>
-<label>historico_Clube</label>
-<textarea
-  value={editData.historico_Clube || ""}
-  onChange={(e) =>
-    setEditData({
-      ...editData,
-      historico_Clube: e.target.value.split("\n")
-      })
-    })
-  }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-/></label>
-          </div>label>
-          </div>/label>
+            <label>
+              Histórico do Clube
+              <textarea
+                value={editData.historicoClubes || ""}
+                onChange={(e) =>
+                  handleChange("historicoClubes", e.target.value)
+                }
+              />
+            </label>
             <label>
               Modalidade de atuação
               <input
-=======
-=======
->>>>>>> Stashed changes
-/>
-            </label>
-          </div>
-          <label>
-            Modalidade de atuação
-            <input
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                 type="text"
                 value={editData.especializacao || ""}
                 onChange={(e) => handleChange("especializacao", e.target.value)}
