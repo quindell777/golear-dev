@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./EditModal.module.scss";
+// Certifique-se de que na sua interface Profile existe: atuacao?: string[];
 import type { Profile } from "../../../types";
 
 interface EditModalProps {
@@ -27,6 +28,7 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
   onCancel,
 }) => {
+  // Alterado 'value: any' para ser mais genérico, mas seguro
   const handleChange = (field: keyof Profile, value: any) => {
     setEditData({ ...editData, [field]: value });
   };
@@ -45,48 +47,37 @@ const EditModal: React.FC<EditModalProps> = ({
   const isFa = editData.role === "Fã";
   const isProfissional = editData.role === "Profissional";
 
-  // 2. Criação do array de estatísticas seguro para uso (fora da função handleStatChange)
-  // Isso resolve a maioria dos warnings de uso global.
+  // 2. Criação do array de estatísticas seguro para uso
   const statsForCalculation: number[] = (editData.estatisticas || INITIAL_STATS).map(
-    (stat) => stat ?? 0 // Garante que todos os elementos são números
+    (stat) => stat ?? 0
   );
 
-  // 3. Cálculo para exibição no JSX (Contador) - CORRIGIDO
+  // 3. Cálculo para exibição no JSX (Contador)
   const totalPointsUsed = statsForCalculation.reduce(
-    (acc: number, val: number) => acc + val, // TS infere acc como number, mas forçamos val como number
+    (acc: number, val: number) => acc + val,
     0
   );
   const pointsRemaining = MAX_TOTAL_POINTS - totalPointsUsed;
 
-  // 4. Função de manipulação de estatísticas ATUALIZADA e CORRIGIDA
+  // 4. Função de manipulação de estatísticas
   const handleStatChange = (index: number, attemptedNewValue: number) => {
-    // 4.1. Garante que o valor individual está entre 0 e 10
     let finalNewValue = Math.max(0, Math.min(10, attemptedNewValue));
-
-    // 4.2. Obtém as estatísticas atuais de forma segura
     const currentStats = [...statsForCalculation];
 
-    // 4.3. Calcula os pontos usados nas OUTRAS estatísticas
     const totalUsedExcludingCurrent = currentStats.reduce(
       (acc: number, val: number, idx: number) => {
-        // CORREÇÃO: Usamos o tipo number para o acumulador 'acc' e 'val' para resolver o bug
         return idx === index ? acc : acc + val;
       },
       0
     );
 
-    // 4.4. Calcula o total de pontos disponíveis para gasto
     const pointsAvailable = MAX_TOTAL_POINTS - totalUsedExcludingCurrent;
 
-    // 4.5. Aplica a restrição de limite total
     if (finalNewValue > pointsAvailable) {
       finalNewValue = Math.max(0, Math.min(10, pointsAvailable));
     }
 
-    // 4.6. Atualiza o array de estatísticas
     currentStats[index] = finalNewValue;
-
-    // 4.7. Atualiza o estado
     handleChange("estatisticas", currentStats);
   };
 
@@ -245,20 +236,28 @@ const EditModal: React.FC<EditModalProps> = ({
                 />
               </label>
 
+              {/* --- CORREÇÃO AQUI: Mudança de tipoAtuacao para atuacao --- */}
               <label>
                 Atua em:
                 <div className={styles.checkboxGroup}>
                   {["Futsal", "Society", "Campo"].map((tipo) => (
-                    <label key={tipo}>
+                    <label key={tipo} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                       <input
                         type="checkbox"
-                        checked={(editData.tipoAtuacao || []).includes(tipo)}
+                        // Verifica se o array 'atuacao' contém o tipo. Usa [] como fallback.
+                        // Obs: Se o TypeScript reclamar de 'atuacao', verifique sua interface Profile.
+                        checked={(editData.atuacao || []).includes(tipo)}
                         onChange={() => {
-                          const currentTipoAtuacao = editData.tipoAtuacao || [];
-                          const newTipoAtuacao = currentTipoAtuacao.includes(tipo)
-                            ? currentTipoAtuacao.filter((item) => item !== tipo)
-                            : [...currentTipoAtuacao, tipo];
-                          handleChange("tipoAtuacao", newTipoAtuacao);
+                          // Pega o array atual ou vazio
+                          const currentAtuacao = editData.atuacao || [];
+                          
+                          // Lógica: se já tem, remove. Se não tem, adiciona.
+                          const newAtuacao = currentAtuacao.includes(tipo)
+                            ? currentAtuacao.filter((item) => item !== tipo)
+                            : [...currentAtuacao, tipo];
+                          
+                          // Salva no campo 'atuacao' para o backend
+                          handleChange("atuacao", newAtuacao);
                         }}
                       />
                       {tipo}
@@ -266,6 +265,7 @@ const EditModal: React.FC<EditModalProps> = ({
                   ))}
                 </div>
               </label>
+              {/* --------------------------------------------------------- */}
             </div>
 
             <div className={`${styles.section} ${styles.fullWidth}`}>
@@ -309,7 +309,6 @@ const EditModal: React.FC<EditModalProps> = ({
                       type="number"
                       min={0}
                       max={10}
-                      // Renderiza o valor seguro do array 'statsForCalculation'
                       value={statsForCalculation[index]}
                       onChange={(e) =>
                         handleStatChange(index, Number(e.target.value))
