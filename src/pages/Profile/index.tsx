@@ -248,9 +248,9 @@ const ProfilePage: React.FC = () => {
                   {profile.altura && <p>Altura: {profile.altura} cm</p>}
                   
                   <h3 style={{ marginTop: '1rem' }}>Posicionamento</h3>
-                  {profile.posicao && <p>Posição principal: **{profile.posicao}**</p>}
-                  {profile.posicaoSecundaria && <p>Posição secundária: **{profile.posicaoSecundaria}**</p>}
-                  {profile.areaAtuacao && <p>Área de Atuação: **{profile.areaAtuacao}**</p>}
+                  {profile.posicao && <p>Posição principal: {profile.posicao}</p>}
+                  {profile.posicaoSecundaria && <p>Posição secundária: {profile.posicaoSecundaria}</p>}
+                  {profile.areaAtuacao && <p>Área de Atuação: {profile.areaAtuacao}</p>}
 
                   {profile.atuacao && (
                     <div>
