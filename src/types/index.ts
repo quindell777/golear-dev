@@ -125,7 +125,7 @@ export interface Profile {
   // Aliases / compatibilidade com código antigo
   posicao?: string;                     // alias de posicaoPrincipal
   caracteristicas?: string;             // alias de estiloJogo
-  tipoAtuacao?: string;                 // alias de areaAtuacao
+  tipoAtuacao?: string[];                 // alias de areaAtuacao
   especializacao?: string | null;       // para clubes/profissionais
 
   // Campos específicos de jogador

@@ -247,15 +247,24 @@ const EditModal: React.FC<EditModalProps> = ({
 
               <label>
                 Atua em:
-                <select
-                  value={editData.tipoAtuacao || ""}
-                  onChange={(e) => handleChange("tipoAtuacao", e.target.value)}
-                >
-                  <option value="">Selecione</option>
-                  <option value="Futsal">Futsal</option>
-                  <option value="Society">Society</option>
-                  <option value="Campo">Campo</option>
-                </select>
+                <div className={styles.checkboxGroup}>
+                  {["Futsal", "Society", "Campo"].map((tipo) => (
+                    <label key={tipo}>
+                      <input
+                        type="checkbox"
+                        checked={(editData.tipoAtuacao || []).includes(tipo)}
+                        onChange={() => {
+                          const currentTipoAtuacao = editData.tipoAtuacao || [];
+                          const newTipoAtuacao = currentTipoAtuacao.includes(tipo)
+                            ? currentTipoAtuacao.filter((item) => item !== tipo)
+                            : [...currentTipoAtuacao, tipo];
+                          handleChange("tipoAtuacao", newTipoAtuacao);
+                        }}
+                      />
+                      {tipo}
+                    </label>
+                  ))}
+                </div>
               </label>
             </div>
 
