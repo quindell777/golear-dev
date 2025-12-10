@@ -10,6 +10,38 @@ import api from "./api";
 import type { Profile } from "../types";
 
 // ----------------------------
+// Helper Functions
+// ----------------------------
+
+/**
+ * Converte uma string de snake_case para camelCase.
+ * @param str - A string para converter.
+ */
+const toCamel = (str: string) => {
+  return str.replace(/([-_][a-z])/ig, ($1) => {
+    return $1.toUpperCase()
+      .replace('-', '')
+      .replace('_', '');
+  });
+};
+
+/**
+ * Converte as chaves de um objeto de snake_case para camelCase.
+ * @param obj - O objeto para converter.
+ */
+const keysToCamel = (obj: any): any => {
+  if (Array.isArray(obj)) {
+    return obj.map(v => keysToCamel(v));
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((result, key) => {
+      result[toCamel(key)] = keysToCamel(obj[key]);
+      return result;
+    }, {});
+  }
+  return obj;
+};
+
+// ----------------------------
 // Funções principais
 // ----------------------------
 
@@ -18,7 +50,8 @@ import type { Profile } from "../types";
  */
 export async function getProfile(): Promise<Profile> {
   const response = await api.get<{ user: any; profile: any }>("/profile/api");
-  return { ...response.data.user, ...response.data.profile };
+  const profileData = { ...response.data.user, ...response.data.profile };
+  return keysToCamel(profileData);
 }
 
 /**
@@ -27,7 +60,8 @@ export async function getProfile(): Promise<Profile> {
  */
 export async function getProfileById(id: string): Promise<Profile> {
   const response = await api.get<{ user: any; profile: any }>(`/usuarios/${id}/perfil`);
-  return { ...response.data.user, ...response.data.profile };
+  const profileData = { ...response.data.user, ...response.data.profile };
+  return keysToCamel(profileData);
 }
 
 /**
