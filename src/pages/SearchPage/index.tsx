@@ -60,6 +60,9 @@ const SearchPage: React.FC = () => {
     modalidade: searchParams.get('modalidade') || '',
     cidade: searchParams.get('cidade') || '',
     regiao: searchParams.get('regiao') || '',
+    especializacao: searchParams.get('especializacao') || '',
+    clubeOlheiro: searchParams.get('clubeOlheiro') || '',
+    nivelAtuacaoOlheiro: searchParams.get('nivelAtuacaoOlheiro') || '',
   });
   
   const [results, setResults] = useState<Profile[]>([]);
@@ -73,6 +76,9 @@ const SearchPage: React.FC = () => {
       modalidade: searchParams.get('modalidade') || '',
       cidade: searchParams.get('cidade') || '',
       regiao: searchParams.get('regiao') || '',
+      especializacao: searchParams.get('especializacao') || '',
+      clubeOlheiro: searchParams.get('clubeOlheiro') || '',
+      nivelAtuacaoOlheiro: searchParams.get('nivelAtuacaoOlheiro') || '',
     };
     setFilters(allFilters);
 
@@ -139,6 +145,52 @@ const SearchPage: React.FC = () => {
                   <select id="modalidade" name="modalidade" value={filters.modalidade} onChange={handleFilterChange}>
                     {MODALIDADES.map(m => (<option key={m} value={m}>{m || "Todas"}</option>))}
                   </select>
+                </div>
+
+                <div className={styles.labelGroup}>
+                  <label htmlFor="altura">Altura (cm)</label>
+                  <input id="altura" type="number" name="altura" value={filters.altura} onChange={handleFilterChange} />
+                </div>
+
+                <div className={styles.labelGroup}>
+                  <label htmlFor="peso">Peso (kg)</label>
+                  <input id="peso" type="number" name="peso" value={filters.peso} onChange={handleFilterChange} />
+                </div>
+
+                <div className={styles.labelGroup}>
+                  <label htmlFor="dominantFoot">Pé Dominante</label>
+                  <select id="dominantFoot" name="dominantFoot" value={filters.dominantFoot} onChange={handleFilterChange}>
+                    <option value="">Todos</option>
+                    <option value="Direito">Direito</option>
+                    <option value="Esquerdo">Esquerdo</option>
+                    <option value="Ambidestro">Ambidestro</option>
+                  </select>
+                </div>
+
+                <div className={styles.labelGroup}>
+                  <label htmlFor="posicaoSecundaria">Posição Secundária</label>
+                  <input id="posicaoSecundaria" type="text" name="posicaoSecundaria" value={filters.posicaoSecundaria} onChange={handleFilterChange} />
+                </div>
+              </>
+            )}
+
+            {filters.role === 'Olheiro' && (
+              <>
+                <div className={styles.labelGroup}>
+                  <label htmlFor="regiao">Região</label>
+                  <input id="regiao" type="text" name="regiao" value={filters.regiao} onChange={handleFilterChange} />
+                </div>
+                <div className={styles.labelGroup}>
+                  <label htmlFor="especializacao">Especialização</label>
+                  <input id="especializacao" type="text" name="especializacao" value={filters.especializacao} onChange={handleFilterChange} />
+                </div>
+                <div className={styles.labelGroup}>
+                  <label htmlFor="clubeOlheiro">Clube do Olheiro</label>
+                  <input id="clubeOlheiro" type="text" name="clubeOlheiro" value={filters.clubeOlheiro} onChange={handleFilterChange} />
+                </div>
+                <div className={styles.labelGroup}>
+                  <label htmlFor="nivelAtuacaoOlheiro">Nível de Atuação</label>
+                  <input id="nivelAtuacaoOlheiro" type="text" name="nivelAtuacaoOlheiro" value={filters.nivelAtuacaoOlheiro} onChange={handleFilterChange} />
                 </div>
               </>
             )}
