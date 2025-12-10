@@ -48,7 +48,7 @@ const UserCard: React.FC<{ user: Profile }> = ({ user }) => {
 
 const ROLES = ["", "Jogador", "Clube", "Olheiro", "Fã", "Profissional"];
 const POSICOES = ["", "Goleiro", "Zagueiro", "Lateral Direito", "Lateral Esquerdo", "Meio-campista", "Atacante", "Ponta", "Volante"];
-const MODALIDADES = ["", "Futebol de Campo", "Futsal", "Futebol Society", "Beach Soccer"];
+const MODALIDADES = ["", "Campo", "Futsal", "Society"];
 
 interface SearchFilters {
   nome: string;
