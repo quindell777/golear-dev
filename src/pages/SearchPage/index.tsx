@@ -50,10 +50,26 @@ const ROLES = ["", "Jogador", "Clube", "Olheiro", "Fã", "Profissional"];
 const POSICOES = ["", "Goleiro", "Zagueiro", "Lateral Direito", "Lateral Esquerdo", "Meio-campista", "Atacante", "Ponta", "Volante"];
 const MODALIDADES = ["", "Futebol de Campo", "Futsal", "Futebol Society", "Beach Soccer"];
 
+interface SearchFilters {
+  nome: string;
+  role: string;
+  posicao: string;
+  modalidade: string;
+  cidade: string;
+  regiao: string;
+  especializacao: string;
+  clubeOlheiro: string;
+  nivelAtuacaoOlheiro: string;
+  altura: string;
+  peso: string;
+  dominantFoot: string;
+  posicaoSecundaria: string;
+}
+
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<SearchFilters>({
     nome: searchParams.get('nome') || '',
     role: searchParams.get('role') || '',
     posicao: searchParams.get('posicao') || '',
@@ -63,6 +79,10 @@ const SearchPage: React.FC = () => {
     especializacao: searchParams.get('especializacao') || '',
     clubeOlheiro: searchParams.get('clubeOlheiro') || '',
     nivelAtuacaoOlheiro: searchParams.get('nivelAtuacaoOlheiro') || '',
+    altura: searchParams.get('altura') || '',
+    peso: searchParams.get('peso') || '',
+    dominantFoot: searchParams.get('dominantFoot') || '',
+    posicaoSecundaria: searchParams.get('posicaoSecundaria') || '',
   });
   
   const [results, setResults] = useState<Profile[]>([]);
@@ -79,6 +99,10 @@ const SearchPage: React.FC = () => {
       especializacao: searchParams.get('especializacao') || '',
       clubeOlheiro: searchParams.get('clubeOlheiro') || '',
       nivelAtuacaoOlheiro: searchParams.get('nivelAtuacaoOlheiro') || '',
+      altura: searchParams.get('altura') || '',
+      peso: searchParams.get('peso') || '',
+      dominantFoot: searchParams.get('dominantFoot') || '',
+      posicaoSecundaria: searchParams.get('posicaoSecundaria') || '',
     };
     setFilters(allFilters);
 
