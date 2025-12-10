@@ -383,7 +383,7 @@ const ProfilePage: React.FC = () => {
             {profile.role === "Profissional" && (
               <div className={styles.module}>
                 <h2>Detalhes Profissionais</h2>
-                {profile.especializacao && <p>Categoria: **{profile.especializacao}**</p>}
+                {profile.especializacao && <p>Categoria: {profile.especializacao}</p>}
                 
                 {/* WHATSAPP como link para wa.me */}
                 {profile.whatsapp && (

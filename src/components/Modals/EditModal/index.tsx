@@ -287,6 +287,7 @@ const EditModal: React.FC<EditModalProps> = ({
                   </label>
                 )
               )}
+              <br />
               <p>Tente ser o mais sincero possível com suas habilidades</p>
             </div>
             <div className={styles.section}>
