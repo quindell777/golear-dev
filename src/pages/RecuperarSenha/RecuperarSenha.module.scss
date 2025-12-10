@@ -55,6 +55,13 @@ $border-radius: 8px;
     }
   }
 
+  // --- Novos Estilos para o Passo 2 ---
+  
+  .stepTwoContainer {
+    // Garante que o espaçamento interno do Passo 2 fique coerente
+    margin-top: 0.5rem; 
+  }
+
   .input {
     width: 100%;
     padding: 0.9rem;
@@ -69,13 +76,29 @@ $border-radius: 8px;
       border-color: $green;
       box-shadow: 0 0 0 3px rgba($green, 0.2);
     }
+    
+    // Estilo para inputs desabilitados (como o email no passo 2)
+    &:disabled {
+      background: $gray-light;
+      cursor: default;
+      color: #777;
+    }
 
     &.inputError {
       border-color: $red;
     }
   }
 
+  // --- Estilos para os Botões (Novas Adições) ---
+
+  .buttonGroup {
+    display: flex;
+    gap: 10px; // Espaçamento entre os botões
+    margin-top: 1.5rem;
+  }
+
   .button {
+    flex-grow: 1; // Permite que o botão principal ocupe o espaço restante
     width: 100%;
     padding: 0.9rem;
     border: none;
@@ -102,6 +125,28 @@ $border-radius: 8px;
       transform: none;
     }
   }
+  
+  .buttonSecondary {
+    flex-grow: 0; // O botão voltar pode ter largura fixa ou menor
+    width: auto;
+    background: $white;
+    color: $green;
+    border: 1px solid $green;
+    
+    &:hover {
+        background: $gray-light;
+        color: $green-light;
+        border-color: $green-light;
+    }
+
+    &:disabled {
+      background: $gray-light;
+      color: #999;
+      border-color: #999;
+    }
+  }
+
+  // --- Mensagens ---
 
   .error {
     color: $red;
@@ -134,7 +179,7 @@ $border-radius: 8px;
       font-size: 0.95rem;
     }
 
-    .button {
+    .button, .buttonSecondary {
       padding: 0.8rem;
       font-size: 0.95rem;
     }
@@ -156,9 +201,14 @@ $border-radius: 8px;
       font-size: 0.9rem;
     }
 
-    .button {
+    .button, .buttonSecondary {
       padding: 0.7rem;
       font-size: 0.9rem;
+    }
+    
+    .buttonGroup {
+        // Em telas muito pequenas, empilha os botões
+        flex-direction: column; 
     }
   }
 }

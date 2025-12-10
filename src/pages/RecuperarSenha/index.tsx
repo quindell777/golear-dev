@@ -1,12 +1,10 @@
 // src/pages/RecuperarSenha/RecuperarSenha.tsx
 
-// Importa React e hooks necessários
 import React, { useState } from "react";
-// Importa hook de navegação do react-router (para redirecionar após sucesso)
 import { useNavigate } from "react-router-dom";
-// Importa estilos via CSS Modules (isolamento de classes)
+// Importa estilos via CSS Modules
 import styles from "./RecuperarSenha.module.scss";
-// Importa os services que encapsulam as requisições HTTP
+// Importa os services
 import { enviarEmailRecuperacao, alterarSenha } from "../../services/recuperarSenha";
 
 /**
@@ -14,93 +12,61 @@ import { enviarEmailRecuperacao, alterarSenha } from "../../services/recuperarSe
  * @description Estrutura dos dados do formulário usados nos dois passos.
  */
 interface StepFormData {
-  /** Email para solicitar token e também usado na alteração de senha */
   email: string;
-  /** Token recebido por email (passo 2) */
   token: string;
-  /** Nova senha (passo 2) */
-  password: string;
+  password: string; // O nome é 'password' no formulário, mas será mapeado para 'novaSenha' no service.
 }
 
 /**
  * @component RecuperacaoSenha
  * @description
- * Componente que implementa o fluxo de recuperação de senha em 2 passos:
- * 1) Enviar email (request para /resgate-senha/api)
- * 2) Informar token + nova senha (POST para /alterar-senha/api)
- *
- * O componente delega as chamadas HTTP aos services e apenas cuida da UX/validação.
+ * Componente que implementa o fluxo de recuperação de senha em 2 passos.
  */
 const RecuperacaoSenha: React.FC = () => {
-  // hook para redirecionar o usuário (ex.: para /login após sucesso)
   const navigate = useNavigate();
 
   // state para controlar o passo atual (1 ou 2)
   const [step, setStep] = useState<1 | 2>(1);
 
-  // state que contém todos os campos do formulário (email, token, nova senha)
+  // state que contém todos os campos do formulário
   const [formData, setFormData] = useState<StepFormData>({
-    email: "",   // inicia vazio
-    token: "",   // inicia vazio
-    password: "" // inicia vazio
+    email: "",
+    token: "",
+    password: ""
   });
 
-  // state que controla se o formulário está processando (desabilita botão)
   const [loading, setLoading] = useState(false);
-
-  // state para mensagens de erro exibidas ao usuário
   const [error, setError] = useState("");
-
-  // state para mensagens de sucesso exibidas ao usuário
   const [success, setSuccess] = useState("");
 
-  /**
-   * showError
-   * @description Define mensagem de erro e limpa mensagem de sucesso.
-   * @param msg Mensagem de erro a ser exibida.
-   */
+  /** Define mensagem de erro e limpa mensagem de sucesso. */
   const showError = (msg: string) => {
-    setError(msg);    // define erro
-    setSuccess("");   // limpa sucesso
+    setError(msg);
+    setSuccess("");
   };
 
-  /**
-   * showSuccess
-   * @description Define mensagem de sucesso e limpa mensagem de erro.
-   * @param msg Mensagem de sucesso a ser exibida.
-   */
+  /** Define mensagem de sucesso e limpa mensagem de erro. */
   const showSuccess = (msg: string) => {
-    setSuccess(msg);  // define sucesso
-    setError("");     // limpa erro
+    setSuccess(msg);
+    setError("");
   };
 
-  /**
-   * handleChange
-   * @description Atualiza dinamicamente `formData` quando inputs mudam.
-   * @param e Evento de input (input text/email/password)
-   */
+  /** Atualiza dinamicamente `formData` quando inputs mudam. */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // extrai name e value do input que disparou o evento
     const { name, value } = e.target;
-
-    // atualiza apenas o campo alterado mantendo os demais valores do formData
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /**
-   * handleSubmit
-   * @description Função principal que lida com o submit do formulário em ambos os passos.
-   * - Se step === 1: valida email e chama enviarEmailRecuperacao()
-   * - Se step === 2: valida token e senha e chama alterarSenha()
-   *
-   * @param e Evento de submit do formulário
-   * @returns Promise<void>
-   */
-  const handleSubmit = async (e: React.FormEvent) => {
-    // evita comportamento padrão do form (reload)
-    e.preventDefault();
+  /** Função para voltar ao passo 1 */
+  const handleBack = () => {
+    setStep(1);
+    setError("");
+    setSuccess("");
+  };
 
-    // limpa mensagens e ativa indicador de carregamento
+  /** Função principal que lida com o submit do formulário. */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setError("");
     setSuccess("");
@@ -108,77 +74,77 @@ const RecuperacaoSenha: React.FC = () => {
     try {
       // --- PASSO 1: enviar email para gerar token ---
       if (step === 1) {
-        // validação simples de email (pode substituir por regex se preferir)
         if (!formData.email || !formData.email.includes("@")) {
           showError("Digite um email válido.");
+          setLoading(false);
           return;
         }
 
-        // chama o service que faz POST /resgate-senha/api
         const response = await enviarEmailRecuperacao({ email: formData.email });
 
-        // se backend retornou success=true, avança para passo 2 com feedback
         if (response && response.success) {
-          showSuccess(response.message || "Email de recuperação enviado com sucesso!");
-          // aguarda um pouco para o usuário ver a mensagem e então avança o passo
-          setTimeout(() => setStep(2), 1200);
+          // A mensagem do backend é importante para evitar enumeração de usuários
+          showSuccess(response.message || "Email enviado! Verifique sua caixa de entrada.");
+          // Aguarda e avança para o passo 2
+          setTimeout(() => {
+            setStep(2);
+            setSuccess(""); // Limpa sucesso para focar nos novos campos
+          }, 1500);
         } else {
-          // caso backend retorne success:false exibe mensagem
-          showError(response?.message || "Erro ao enviar email de recuperação.");
+          showError(response?.message || "Erro ao enviar email.");
         }
 
       // --- PASSO 2: alterar senha usando token ---
       } else if (step === 2) {
-        // valida token não vazio
+        // Validação contra refresh da página
+        if (!formData.email) {
+            showError("O email é necessário. Por favor, volte e preencha novamente.");
+            setLoading(false);
+            return;
+        }
+
         if (!formData.token || !formData.token.trim()) {
           showError("Digite o token enviado no email.");
+          setLoading(false);
           return;
         }
 
-        // valida nova senha (mínimo 6 caracteres — ajuste conforme regra do backend)
         if (!formData.password || formData.password.length < 6) {
           showError("A senha deve ter pelo menos 6 caracteres.");
+          setLoading(false);
           return;
         }
 
-        // chama o service que faz POST /alterar-senha/api com { email, novaSenha, token }
+        // Chama o service que faz POST /alterar-senha/api com { email, novaSenha, token }
         const response = await alterarSenha({
           email: formData.email,
-          novaSenha: formData.password,
+          novaSenha: formData.password, // Mapeamento do campo 'password' para 'novaSenha' do backend
           token: formData.token,
         });
 
-        // se sucesso, mostra mensagem e redireciona para login
         if (response && response.success) {
           showSuccess(response.message || "Senha alterada com sucesso!");
           // redireciona para /login após pequena pausa
-          setTimeout(() => navigate("/login"), 1500);
+          setTimeout(() => navigate("/login"), 2000);
         } else {
-          // se backend não conseguiu alterar, exibe a mensagem retornada
-          showError(response?.message || "Erro ao alterar senha.");
+          showError(response?.message || "Token inválido ou expirado.");
         }
       }
     } catch (err: any) {
-      // log para desenvolvedor com fallback informativo
       console.error("Erro no fluxo de recuperação:", err?.response?.data || err?.message || err);
-      // mostra mensagem de erro amigável ao usuário
-      showError(err?.response?.data?.message || "Erro ao processar sua solicitação.");
+      // Tratamento robusto para pegar a mensagem de erro
+      const msg = err.response?.data?.message || err.message || "Ocorreu um erro inesperado.";
+      showError(msg);
     } finally {
-      // desativa indicador de carregamento sempre
       setLoading(false);
     }
   };
 
-  /**
-   * renderProgress
-   * @description pequena barra de progresso que indica visualmente se estamos no passo 1 (50%) ou passo 2 (100%).
-   * É separada por clareza; o JSX principal chama essa função.
-   */
+  /** Renderiza barra de progresso */
   const renderProgress = () => (
     <div className={styles.progressBar}>
       <div
         className={styles.progressFill}
-        // width muda conforme o valor de `step`
         style={{ width: step === 1 ? "50%" : "100%" }}
       />
     </div>
@@ -187,37 +153,39 @@ const RecuperacaoSenha: React.FC = () => {
   // === JSX retornado pelo componente ===
   return (
     <div className={styles.container}>
-      {/* formulário principal */}
       <form className={styles.form} onSubmit={handleSubmit}>
-        {/* barra de progresso */}
         {renderProgress()}
 
-        {/* título dinâmico conforme passo */}
-        <h1>{step === 1 ? "Recuperar senha" : "Redefinir senha"}</h1>
+        {/* Título dinâmico */}
+        <h1>{step === 1 ? "Recuperar Senha" : "Criar Nova Senha"}</h1>
 
-        {/* PASSO 1: solicita email */}
-        {step === 1 && (
-          <>
-            <p>Digite o email da sua conta para recuperar o acesso.</p>
+        {/* MENSAGENS DE FEEDBACK */}
+        {error && <div className={styles.error}>{error}</div>}
+        {success && <div className={styles.success}>{success}</div>}
 
-            {/* input de email — name "email" é usado por handleChange */}
+        {/* CAMPO DE EMAIL 
+            Fica visível em ambos os passos. No passo 2, disabled para referência.
+        */}
+        <div className={styles.inputGroup}>
+            <p>{step === 1 ? "Digite seu email para receber o código." : "Email da conta:"}</p>
             <input
-              type="email"
-              name="email"
-              placeholder="Seu email"
-              value={formData.email}                // valor controlado pelo state
-              onChange={handleChange}               // atualiza state ao digitar
-              className={`${styles.input} ${error ? styles.inputError : ""}`} // aplica estilo de erro se necessário
-              required                              // validação HTML5
+                type="email"
+                name="email"
+                placeholder="Seu email cadastrado"
+                value={formData.email}
+                onChange={handleChange}
+                className={`${styles.input} ${error ? styles.inputError : ""}`}
+                required
+                disabled={step === 2 && formData.email.length > 0} // Desabilita se já no passo 2 e com email preenchido
+                autoFocus={step === 1}
             />
-          </>
-        )}
+        </div>
 
-        {/* PASSO 2: token + nova senha */}
+        {/* CAMPOS EXCLUSIVOS DO PASSO 2 */}
         {step === 2 && (
-          <>
-            <p>Digite o token enviado para seu email e a nova senha.</p>
-
+          <div className={styles.stepTwoContainer}>
+            <p>Insira o token recebido e sua nova senha.</p>
+            
             {/* input do token — name "token" */}
             <input
               type="text"
@@ -227,6 +195,8 @@ const RecuperacaoSenha: React.FC = () => {
               onChange={handleChange}
               className={`${styles.input} ${error ? styles.inputError : ""}`}
               required
+              autoComplete="off"
+              autoFocus // Foca automaticamente no token ao avançar
             />
 
             {/* input da nova senha — name "password" */}
@@ -238,24 +208,33 @@ const RecuperacaoSenha: React.FC = () => {
               onChange={handleChange}
               className={`${styles.input} ${error ? styles.inputError : ""}`}
               required
+              minLength={6}
             />
-          </>
+          </div>
         )}
 
-        {/* exibe erro se existir */}
-        {error && <p className={styles.error}>{error}</p>}
+        {/* GRUPO DE BOTÕES */}
+        <div className={styles.buttonGroup}>
+            {/* Botão de Voltar (Apenas no passo 2) */}
+            {step === 2 && (
+                <button 
+                    type="button" 
+                    className={`${styles.button} ${styles.buttonSecondary}`} 
+                    onClick={handleBack}
+                    disabled={loading}
+                >
+                    Voltar
+                </button>
+            )}
 
-        {/* exibe sucesso se existir */}
-        {success && <p className={styles.success}>{success}</p>}
-
-        {/* botão de submit — texto dinâmico conforme o passo; disabled durante loading */}
-        <button type="submit" className={styles.button} disabled={loading}>
-          {loading ? "Processando..." : step === 2 ? "Confirmar" : "Próximo"}
-        </button>
+            {/* Botão Principal de Submit */}
+            <button type="submit" className={styles.button} disabled={loading}>
+              {loading ? "Processando..." : step === 1 ? "Enviar Código" : "Alterar Senha"}
+            </button>
+        </div>
       </form>
     </div>
   );
 };
 
-// export default do componente para uso nas rotas
 export default RecuperacaoSenha;
