@@ -390,45 +390,73 @@ const EditModal: React.FC<EditModalProps> = ({
 
         {/* Olheiro */}
         {isOlheiro && (
-          <div className={`${styles.section} ${styles.fullWidth}`}>
-            <label>
-              Área de Atuação / Região
-              <input
-                type="text"
-                value={editData.areaAtuacao || ""}
-                onChange={(e) => handleChange("areaAtuacao", e.target.value)}
-              />
-            </label>
-            <label>
-              modalidade de especialização
-              <input
-                type="text"
-                value={editData.especializacao || ""}
-                onChange={(e) => handleChange("especializacao", e.target.value)}
-              />
-            </label>
-            <label>
-              Experiência
-              <textarea
-                value={editData.experiencia || ""}
-                onChange={(e) => handleChange("experiencia", e.target.value)}
-              />
-            </label>
-            <label>
-              trabalha para qual clube(s) ou agência(s)
-              <textarea
-                value={editData.clubeOlheiro || ""}
-                onChange={(e) => handleChange("clubeOlheiro", e.target.value)}
-              />
-            </label>
-            <label>
-              Nivel de atuação
-              <textarea
-                value={editData.nivelAtuacaoOlheiro || ""}
-                onChange={(e) => handleChange("nivelAtuacaoOlheiro", e.target.value)}
-              />
-            </label>
-          </div>
+          <>
+            <div className={`${styles.section} ${styles.fullWidth}`}>
+              <label>
+                Área de Atuação / Região
+                <input
+                  type="text"
+                  value={editData.areaAtuacao || ""}
+                  onChange={(e) => handleChange("areaAtuacao", e.target.value)}
+                />
+              </label>
+              <label>
+                modalidade de especialização
+                <input
+                  type="text"
+                  value={editData.especializacao || ""}
+                  onChange={(e) => handleChange("especializacao", e.target.value)}
+                />
+              </label>
+              <label>
+                Experiência
+                <textarea
+                  value={editData.experiencia || ""}
+                  onChange={(e) => handleChange("experiencia", e.target.value)}
+                />
+              </label>
+              <label>
+                trabalha para qual clube(s) ou agência(s)
+                <textarea
+                  value={editData.clubeOlheiro || ""}
+                  onChange={(e) => handleChange("clubeOlheiro", e.target.value)}
+                />
+              </label>
+              <label>
+                Nivel de atuação
+                <textarea
+                  value={editData.nivelAtuacaoOlheiro || ""}
+                  onChange={(e) => handleChange("nivelAtuacaoOlheiro", e.target.value)}
+                />
+              </label>
+            </div>
+            <div className={styles.section}>
+              <label>
+                WhatsApp
+                <input
+                  type="text"
+                  value={editData.whatsapp || ""}
+                  onChange={(e) => handleChange("whatsapp", e.target.value)}
+                />
+              </label>
+              <label>
+                Instagram
+                <input
+                  type="text"
+                  value={editData.instagram || ""}
+                  onChange={(e) => handleChange("instagram", e.target.value)}
+                />
+              </label>
+              <label>
+                Twitter / X
+                <input
+                  type="text"
+                  value={editData.twitter || ""}
+                  onChange={(e) => handleChange("twitter", e.target.value)}
+                />
+              </label>
+            </div>
+          </>
         )}
 
         {/* Fã */}
