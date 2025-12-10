@@ -33,7 +33,7 @@ const keysToCamel = (obj: any): any => {
   if (Array.isArray(obj)) {
     return obj.map(v => keysToCamel(v));
   } else if (obj !== null && obj.constructor === Object) {
-    return Object.keys(obj).reduce((result, key) => {
+    return Object.keys(obj).reduce((result: {[key: string]: any}, key) => {
       result[toCamel(key)] = keysToCamel(obj[key]);
       return result;
     }, {});
