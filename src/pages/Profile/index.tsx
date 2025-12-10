@@ -321,7 +321,7 @@ const ProfilePage: React.FC = () => {
                 {profile.areaAtuacao && <p>Área de Atuação: {profile.areaAtuacao}</p>}
                 {profile.especializacao && <p>Especialização: {profile.especializacao}</p>}
                 {profile.experiencia && <p>Experiência: {profile.experiencia}</p>}
-                {profile.clubeOlheiro && <p>Clube em que trabalha: {profile.clubeOlheiro}</p>}
+                {profile.clubeOlheiro && <p>Trabalha para qual clube(s) ou agência(s): {profile.clubeOlheiro}</p>}
                 {profile.nivelAtuacaoOlheiro && <p>Nível de Atuação: {profile.nivelAtuacaoOlheiro}</p>}
               </div>
             )}
