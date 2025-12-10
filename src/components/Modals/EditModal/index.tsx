@@ -329,15 +329,6 @@ const EditModal: React.FC<EditModalProps> = ({
               />
             </label>
             <label>
-              Histórico do Clube
-              <textarea
-                value={editData.historicoClubes || ""}
-                onChange={(e) =>
-                  handleChange("historicoClubes", e.target.value)
-                }
-              />
-            </label>
-            <label>
               Modalidade de atuação
               <input
                 type="text"
