@@ -39,8 +39,9 @@
 .searchContainer {
   position: relative;
   flex: 1;
-  max-width: 450px;
-
+  max-width: 450px; 
+  min-width: 150px; 
+  
   .search {
     width: 100%;
     padding: 0.5rem 0.9rem;
@@ -62,28 +63,43 @@
   }
 }
 
-/* ==== PERFIL (CORRIGIDO PARA ELLIPSIS) ==== */
+/* ==== LINKS DESKTOP ==== */
+.desktopLinks {
+  display: flex; // Visível por padrão (desktop)
+  align-items: center;
+  gap: 1.5rem;
+
+  a {
+    color: #0b0c10;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+
+    &:hover {
+      color: #00bcd4;
+    }
+  }
+}
+
+
+/* ==== PERFIL (ELLIPSIS) ==== */
 .userProfile {
   display: flex;
   align-items: center;
 
-  // CRÍTICO: Permite que o Flex container se encolha
   min-width: 0; 
   
   .profileLink {
     display: block;
-    // Opcional: define uma largura máxima para o link
     max-width: 150px; 
     
-    // Regras de Truncagem (Ellipsis) no SPAN
     span {
       display: inline-block;
       min-width: 0; 
-      white-space: nowrap; // Impede quebra de linha
-      overflow: hidden; // Esconde o que exceder
-      text-overflow: ellipsis; // Adiciona '...'
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
       
-      // Estilos de Link
       color: #0b0c10;
       text-decoration: none;
       font-weight: 500;
@@ -101,14 +117,14 @@
   }
 }
 
-/* ==== BOTÃO MENU ==== */
+/* ==== BOTÃO MENU (ESCONDIDO POR PADRÃO - DESKTOP) ==== */
 .menuButton {
   background: transparent;
   border: none;
   color: #0b0c10;
   cursor: pointer;
-  display: flex;
-  align-items: center;
+  // CRÍTICO: Esconde no desktop, onde os links estão visíveis
+  display: none; 
 
   &:hover {
     color: $gray-dark;
@@ -119,7 +135,7 @@
 .mobileDropdown {
   position: absolute;
   top: 100%;
-  right: 1rem;
+  right: 1.2rem; 
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -127,7 +143,7 @@
   border-radius: 10px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.2s ease-in-out;
-  z-index: 1000; // Garante que fique acima da Sidebar
+  z-index: 1000;
 
   a {
     padding: 0.5rem 0.8rem;
@@ -137,7 +153,7 @@
     border-radius: 6px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.05); 
     }
   }
 }
@@ -154,30 +170,38 @@
   }
 }
 
-/* ==== RESPONSIVIDADE ==== */
+/* ==== RESPONSIVIDADE (MOBILE) ==== */
 @media (max-width: 768px) {
   .navbar {
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
     gap: 0.5rem;
   }
 
+  // 1. Esconde os links de desktop e mostra o menu hamburguer
+  .desktopLinks {
+    display: none;
+  }
+
+  .menuButton {
+    display: flex; // Mostra o menu hamburguer
+    order: 4;
+  }
+
+  // 2. Garante que o Logo e o Perfil fiquem na primeira linha
   .logo {
     order: 1;
   }
 
-  .searchContainer {
-    order: 2;
-    flex: 1 1 100%; // Ocupa a largura total da linha abaixo
-  }
-
   .userProfile {
     order: 3;
-    // Garante que o nome do perfil não ocupe mais de 50% para deixar espaço para o botão
     flex-basis: auto; 
-    max-width: 50%;
+    max-width: calc(100% - 150px); 
   }
 
-  .menuButton {
-    order: 4;
+  // 3. A barra de busca ocupa 100% da largura da linha de baixo
+  .searchContainer {
+    order: 5; 
+    flex: 1 1 100%; 
+    max-width: 100%; 
   }
 }

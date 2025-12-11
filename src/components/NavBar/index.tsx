@@ -9,9 +9,9 @@ import { useAuth } from "../../context/AuthContext";
 
 const Navbar: React.FC = () => {
   const { profile, loadingProfile } = useAuth();
-  const navigate = useNavigate(); // Hook para navegar
+  const navigate = useNavigate();
 
-  const [query, setQuery] = useState<string>(""); // Apenas o query da busca
+  const [query, setQuery] = useState<string>(""); 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -21,11 +21,10 @@ const Navbar: React.FC = () => {
    * @description Chamado ao pressionar Enter na busca. Redireciona para a pág. de resultados.
    */
   const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault();
     if (query.trim()) {
-      // Navega para a página de busca, passando o 'nome' como query param
       navigate(`/search?nome=${query}`);
-      setQuery(""); // Opcional: limpa o campo após a busca
+      setQuery(""); 
     }
   };
 
@@ -53,18 +52,29 @@ const Navbar: React.FC = () => {
           type="search"
           placeholder="Buscar jogadores"
           value={query}
-          // O onChange agora é simples, só atualiza o state
           onChange={(e) => setQuery(e.target.value)} 
           className={styles.search}
         />
-        {/* O dropdown de resultados (<ul>) foi removido */}
       </form>
+
+      {/* NOVO: Links de navegação para Desktop (Visível > 768px) */}
+      <div className={styles.desktopLinks}>
+        <Link to="/feed">Feed</Link>
+        {profile?.role === "Jogador" && (
+          <Link to="/peneiras">Peneiras</Link>
+        )}
+        {profile?.role === "Clube" && (
+          <Link to="/competicoes">Competições</Link>
+        )}
+        {profile?.role === "Olheiro" && (
+            <Link to="/peneiras">Peneiras</Link>
+        )}
+      </div>
 
       <div className={styles.userProfile}>
         {loadingProfile ? (
           <span>Carregando...</span>
         ) : profile ? (
-          // O ID do perfil vem do AuthContext
           <Link to={`/profile/${profile.id}`} className={styles.profileLink}>
             {/* O SPAN encapsula o nome para aplicar a regra de ellipsis no CSS */}
             <span>{profile.nome}</span> 
@@ -74,6 +84,7 @@ const Navbar: React.FC = () => {
         )}
       </div>
 
+      {/* O menuButton é escondido no desktop e visível no mobile */}
       <button
         className={styles.menuButton}
         onClick={() => setMenuOpen((prev) => !prev)}
@@ -82,6 +93,7 @@ const Navbar: React.FC = () => {
         <IoIosMenu size={22} />
       </button>
 
+      {/* O mobileDropdown é o menu hambúrguer (Visível no Mobile) */}
       {menuOpen && (
         <div className={styles.mobileDropdown} ref={menuRef}>
           <Link to="/feed" onClick={() => setMenuOpen(false)}>Feed</Link>
