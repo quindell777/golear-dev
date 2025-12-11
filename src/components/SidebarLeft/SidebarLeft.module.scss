@@ -23,7 +23,9 @@
   }
 }
 
-// ===== SIDEBAR - DESKTOP/DEFAULT (width: 250px, position: sticky) =====
+// ==========================================================
+// 1. SIDEBAR - DESKTOP/DEFAULT (width: 250px, position: sticky)
+// ==========================================================
 .sidebar {
   width: 250px; // Largura fixa no desktop
   background-color: $light-surface;
@@ -37,8 +39,10 @@
   font-family: $font-primary;
   max-height: fit-content;
   animation: fadeIn 0.4s ease-in-out;
-  position: sticky; // Mantém a barra visível ao rolar
-  top: 20px;
+  
+  // Posicionamento Sticky (Desktop)
+  position: sticky; 
+  top: 20px; // Fica um pouco abaixo do topo
   align-self: start;
 
   // ===== PERFIL (Mantido) =====
@@ -74,7 +78,8 @@
         border-radius: 50%;
         border: 3px solid $light-surface;
         object-fit: cover;
-        margin-top: -40px;
+        // Margem negativa para sobrepor o cover
+        margin-top: -40px; 
         transition: transform 0.25s ease, box-shadow 0.25s ease;
 
         &:hover {
@@ -190,19 +195,22 @@
   }
 }
 
-// ===== MOBILE / TABLET (Layout Horizontal Fixo no Topo) =====
+// ==========================================================
+// 2. MOBILE / TABLET (Layout Horizontal Fixo abaixo da NavBar)
+// ==========================================================
 @media (max-width: 1024px) {
   .sidebar {
     // === Comportamento Fixo e 100% de Largura ===
-    width: 100%; // Ocupa a largura total
+    width: 100%; 
     min-height: auto;
     max-height: fit-content;
-    position: fixed; // Fica fixo no topo
-    top: 55px; // AJUSTE: Altura da Navbar (assumindo 55px)
+    
+    position: fixed; // CRUCIAL: Retirado do fluxo
+    top: 55px; // CRUCIAL: Fica abaixo da NavBar (~55px de altura)
     left: 0;
     right: 0;
-    z-index: 999;
-    align-self: unset; // Remove o align-self: start do desktop
+    z-index: 999; // CRUCIAL: Fica acima do Conteúdo Principal
+    align-self: unset; 
     
     // === Propriedades Visuais ===
     background-color: $light-surface;
@@ -210,7 +218,6 @@
     border: none;
     border-bottom: 1px solid $light-border;
     
-    // Layout: 2 Linhas
     display: flex;
     flex-direction: column; 
     
@@ -298,12 +305,10 @@
 // Media Query para dispositivos AINDA MENORES
 @media (max-width: 480px) {
     .usefulLinks {
-        // Permite que os links quebrem em múltiplas linhas se a tela for muito estreita
         flex-wrap: wrap; 
         justify-content: space-around;
     }
     
-    // Reduz um pouco mais o padding lateral do sidebar fixo
     .sidebar {
         padding: 0.5rem 0.75rem;
     }

@@ -1,27 +1,42 @@
+// NavBar.module.scss
+
 @import '../../styles/variables.scss';
+
+// ==========================================================
+// 1. ESTRUTURA BASE DA BARRA DE NAVEGAÇÃO (NAVBAR)
+// ==========================================================
 
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  // Padding e Fundo
   padding: 0.6rem 1.2rem;
   background-color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: #0b0c10;
+
+  // Posicionamento
   position: sticky;
   top: 0;
   z-index: 999;
-  gap: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  // Espaçamento entre os principais blocos (Logo, Busca, Links, Perfil)
+  gap: 1.5rem; 
 }
 
-/* ==== LOGO ==== */
+// ==========================================================
+// 2. BLOCO LOGO
+// ==========================================================
+
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: $green-dark;
   gap: 0.5rem;
-
+  
   .logoImg {
     height: 44px;
     width: auto;
@@ -35,10 +50,13 @@
   }
 }
 
-/* ==== PESQUISA ==== */
+// ==========================================================
+// 3. BLOCO PESQUISA
+// ==========================================================
+
 .searchContainer {
   position: relative;
-  flex: 1;
+  flex: 1; // Ocupa o espaço central disponível
   max-width: 450px; 
   min-width: 150px; 
   
@@ -63,7 +81,10 @@
   }
 }
 
-/* ==== LINKS DESKTOP ==== */
+// ==========================================================
+// 4. BLOCO LINKS DE NAVEGAÇÃO (Desktop)
+// ==========================================================
+
 .desktopLinks {
   display: flex; // Visível por padrão (desktop)
   align-items: center;
@@ -81,17 +102,18 @@
   }
 }
 
+// ==========================================================
+// 5. BLOCO PERFIL (Com Truncagem Ellipsis)
+// ==========================================================
 
-/* ==== PERFIL (ELLIPSIS) ==== */
 .userProfile {
   display: flex;
   align-items: center;
-
   min-width: 0; 
   
   .profileLink {
     display: block;
-    max-width: 150px; 
+    max-width: 120px; // Reduzido ligeiramente para dar mais espaço
     
     span {
       display: inline-block;
@@ -117,13 +139,16 @@
   }
 }
 
-/* ==== BOTÃO MENU (ESCONDIDO POR PADRÃO - DESKTOP) ==== */
+// ==========================================================
+// 6. BOTÃO MENU HAMBÚRGUER (MOBILE)
+// ==========================================================
+
 .menuButton {
   background: transparent;
   border: none;
   color: #0b0c10;
   cursor: pointer;
-  // CRÍTICO: Esconde no desktop, onde os links estão visíveis
+  // Escondido no desktop
   display: none; 
 
   &:hover {
@@ -131,7 +156,10 @@
   }
 }
 
-/* ==== DROPDOWN MOBILE ==== */
+// ==========================================================
+// 7. DROPDOWN MOBILE
+// ==========================================================
+
 .mobileDropdown {
   position: absolute;
   top: 100%;
@@ -158,7 +186,10 @@
   }
 }
 
-/* ==== ANIMAÇÃO ==== */
+// ==========================================================
+// 8. ANIMAÇÕES
+// ==========================================================
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -170,24 +201,28 @@
   }
 }
 
-/* ==== RESPONSIVIDADE (MOBILE) ==== */
+// ==========================================================
+// 9. RESPONSIVIDADE (MOBILE < 768px)
+// ==========================================================
+
 @media (max-width: 768px) {
   .navbar {
-    flex-wrap: wrap; 
+    flex-wrap: wrap; // Permite que a busca vá para a linha de baixo
     gap: 0.5rem;
+    justify-content: space-between;
   }
 
-  // 1. Esconde os links de desktop e mostra o menu hamburguer
+  // A. Oculta Links de Desktop e Mostra o Botão Mobile
   .desktopLinks {
     display: none;
   }
 
   .menuButton {
-    display: flex; // Mostra o menu hamburguer
-    order: 4;
+    display: flex; 
+    order: 4; // Fica no final da primeira linha
   }
 
-  // 2. Garante que o Logo e o Perfil fiquem na primeira linha
+  // B. Organização da Primeira Linha
   .logo {
     order: 1;
   }
@@ -195,15 +230,13 @@
   .userProfile {
     order: 3;
     flex-basis: auto; 
-    max-width: calc(100% - 150px); 
+    max-width: 140px; // Limita o nome para garantir espaço para o botão
   }
 
-  //aaaaaaaaaaaaaaaaaaaaa
-  //comentario qualquer
-  // 3. A barra de busca ocupa 100% da largura da linha de baixo
+  // C. Busca na Segunda Linha (100% de Largura)
   .searchContainer {
-    order: 5; 
-    flex: 1 1 100%; 
+    order: 5; // Joga a busca para a segunda linha
+    flex: 1 1 100%; // Ocupa 100% da largura
     max-width: 100%; 
   }
 }
