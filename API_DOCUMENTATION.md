@@ -1,6 +1,6 @@
 # Documentação da API - GoLear (Rede Social de Futebol)
 
-Este documento descreve todos os endpoints da API para a rede social de futebol GoLear.
+Este documento descreve todos os endpoints da API para a rede social de futebol GoLear
 
 **URL Base:** `http://localhost:3000`
 **Status:** ✅ **FUNCIONANDO** - API operacional com banco SQLite real
