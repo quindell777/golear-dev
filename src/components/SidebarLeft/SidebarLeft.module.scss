@@ -1,6 +1,8 @@
+// src/components/SidebarLeft.module.scss
+
 @import '../../styles/variables.scss';
 
-// ===== ANIMAÇÕES =====
+// ===== ANIMAÇÕES (Mantido) =====
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -13,13 +15,17 @@
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(300%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(300%);
+  }
 }
 
-// ===== SIDEBAR - DESKTOP/DEFAULT =====
+// ===== SIDEBAR - DESKTOP/DEFAULT (width: 250px, position: sticky) =====
 .sidebar {
-  width: 250px; // desktop: largura fixa
+  width: 250px; // Largura fixa no desktop
   background-color: $light-surface;
   border: 1px solid $light-border;
   border-radius: $radius;
@@ -31,11 +37,11 @@
   font-family: $font-primary;
   max-height: fit-content;
   animation: fadeIn 0.4s ease-in-out;
-  position: sticky;
+  position: sticky; // Mantém a barra visível ao rolar
   top: 20px;
   align-self: start;
 
-  // ===== PERFIL =====
+  // ===== PERFIL (Mantido) =====
   .profile {
     border-radius: $radius;
     overflow: hidden;
@@ -44,7 +50,9 @@
     border: 1px solid $light-border;
     transition: box-shadow 0.2s ease-in-out;
 
-    &:hover { box-shadow: $shadow-medium; }
+    &:hover {
+      box-shadow: $shadow-medium;
+    }
 
     .cover {
       width: 100%;
@@ -85,7 +93,9 @@
           margin: 0.25rem 0;
           transition: color 0.2s ease;
 
-          &:hover { color: $green-primary; }
+          &:hover {
+            color: $green-primary;
+          }
         }
 
         p {
@@ -97,7 +107,7 @@
     }
   }
 
-  // ===== LINKS ÚTEIS =====
+  // ===== LINKS ÚTEIS (Mantido) =====
   .usefulLinks {
     display: flex;
     flex-direction: column;
@@ -110,7 +120,8 @@
       margin-bottom: 0.25rem;
     }
 
-    a, button {
+    a,
+    button {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -131,14 +142,21 @@
         transform: translateX(2px);
       }
 
-      &:focus { outline: 2px solid rgba(34, 197, 94, 0.3); outline-offset: 2px; }
-      &:active { transform: scale(0.97); }
+      &:focus {
+        outline: 2px solid rgba(34, 197, 94, 0.3);
+        outline-offset: 2px;
+      }
+      &:active {
+        transform: scale(0.97);
+      }
     }
 
-    button { justify-content: flex-start; }
+    button {
+      justify-content: flex-start;
+    }
   }
 
-  // ===== ESTATÍSTICAS =====
+  // ===== ESTATÍSTICAS (Mantido) =====
   .stats {
     display: flex;
     justify-content: space-around;
@@ -154,7 +172,9 @@
       border-radius: 6px;
       transition: background-color 0.2s ease-in-out;
 
-      &:hover { background-color: $light-bg; }
+      &:hover {
+        background-color: $light-bg;
+      }
 
       strong {
         font-size: 1.1rem;
@@ -168,87 +188,84 @@
       }
     }
   }
+}
 
-  // ===== MOBILE / TABLET (Layout de 2 linhas: Perfil | Links) =====
-  @media (max-width: 1024px) {
+// ===== MOBILE / TABLET (Layout Horizontal Fixo no Topo) =====
+@media (max-width: 1024px) {
+  .sidebar {
+    // === Comportamento Fixo e 100% de Largura ===
+    width: 100%; // Ocupa a largura total
+    min-height: auto;
+    max-height: fit-content;
+    position: fixed; // Fica fixo no topo
+    top: 55px; // AJUSTE: Altura da Navbar (assumindo 55px)
+    left: 0;
+    right: 0;
+    z-index: 999;
+    align-self: unset; // Remove o align-self: start do desktop
     
-    // --- 1. O CONTAINER PRINCIPAL (agora é uma coluna) ---
-    .sidebar {
-      display: flex;
-      flex-direction: column; // Perfil em cima, links embaixo
-      align-items: center;
-      
-      width: auto;
-      height: auto;
-      position: fixed; // Permanece fixo no topo
-      top: 0;
-      left: 0;
-      z-index: 999; // <--- AJUSTE DE Z-INDEX: Abaixo da Navbar (1000)
-      
-      background-color: $light-surface;
-      border-radius: 0;
-      border: none;
-      border-bottom: 1px solid $light-border;
-      
-      padding: 0.5rem 1rem;
-      gap: 0.5rem;
-      
-      overflow-x: hidden; // Remove o scroll horizontal
-    }
-
-    // --- 2. LINHA 1: PERFIL + STATS ---
-    .profile {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-
-      border: none;
-      padding: 0;
-      background: none;
-      overflow: visible;
-      &:hover { box-shadow: none; }
-    }
-
-    // REQUERIMENTO: Tira o banner
-    .profile .cover {
-      display: none;
-    }
-
-    // Container do Avatar + Nome
-    .profile .profileContent {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0;
-    }
-
-    // REQUERIMENTO: Fica menor
-    .profile .avatar {
-      width: 40px;
-      height: 40px;
-      margin-top: 0;
-      border-width: 2px;
-    }
+    // === Propriedades Visuais ===
+    background-color: $light-surface;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid $light-border;
     
-    .profile .userInfo {
-      margin-top: 0;
-      // Remove a bio
-      p { display: none; }
-      h3 { font-size: 1rem; margin: 0; }
-    }
-
-    // Container das Estatísticas
-    .stats {
-      display: flex;
-      flex-direction: row;
-      flex: 0 0 auto;
-      padding: 0;
-      border-top: none;
-      gap: 1rem;
-    }
+    // Layout: 2 Linhas
+    display: flex;
+    flex-direction: column; 
+    
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+  }
+  
+  // --- A PRIMEIRA LINHA: Perfil + Stats lado a lado ---
+  .profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+    border: none;
+    padding: 0;
+    background: none;
+    overflow: visible;
+    box-shadow: none;
+    &:hover { box-shadow: none; }
+  }
+  
+  // Tira o banner
+  .profile .cover {
+    display: none;
+  }
+  
+  // Container do Avatar + Nome
+  .profile .profileContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0;
+  }
+  
+  // Avatar fica menor
+  .profile .avatar {
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+    border-width: 2px;
+  }
+  
+  .profile .userInfo {
+    margin-top: 0;
+    p { display: none; } // Remove a bio
+    h3 { font-size: 1rem; margin: 0; }
+  }
+  
+  // Container das Estatísticas
+  .stats {
+    padding: 0;
+    border-top: none;
+    gap: 1rem;
     
     .stat {
       padding: 0;
@@ -256,28 +273,38 @@
       span { font-size: 0.75rem; }
       &:hover { background: none; }
     }
-
-    // --- 3. LINHA 2: LINKS ÚTEIS ---
-    // REQUERIMENTO: Passam para baixo e ficam lado a lado
-    .usefulLinks {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 1rem;
-      width: 100%;
-      
-      padding: 0.5rem 0 0 0;
-      border-top: 1px solid $light-border;
-
-      // Esconde o título
-      h4 {
-        display: none;
-      }
-
-      button, a {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.8rem;
-      }
+  }
+  
+  // --- A SEGUNDA LINHA: Links Úteis horizontalmente ---
+  .usefulLinks {
+    display: flex;
+    flex-direction: row; // Links lado a lado
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    
+    padding: 0.5rem 0 0 0;
+    border-top: 1px solid $light-border;
+    
+    h4 { display: none; } // Esconde o título
+    
+    button, a {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
     }
   }
+}
+
+// Media Query para dispositivos AINDA MENORES
+@media (max-width: 480px) {
+    .usefulLinks {
+        // Permite que os links quebrem em múltiplas linhas se a tela for muito estreita
+        flex-wrap: wrap; 
+        justify-content: space-around;
+    }
+    
+    // Reduz um pouco mais o padding lateral do sidebar fixo
+    .sidebar {
+        padding: 0.5rem 0.75rem;
+    }
 }

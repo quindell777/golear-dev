@@ -1,22 +1,49 @@
+// src/pages/Home.module.scss
+
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; // proporção inicial
-  gap: 16px; // espaço entre colunas
+  // Desktop: 1fr (SidebarLeft) 2fr (Feed) 1fr (SidebarRight)
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 16px;
   width: 100%;
-  max-width: 1200px; // limite para telas grandes
-  margin: 0 auto; // centraliza
-  padding: 0 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px; // Padding padrão para desktop
 }
 
-/* Responsivo: mobile (≤768px) */
+/* Responsivo: Tablet/Layout Horizontal (≤1024px) */
+@media (max-width: 1024px) {
+  .container {
+    // A coluna do SidebarLeft é removida do grid pois ele virou 'position: fixed'
+    // Mantemos Feed e SidebarRight
+    grid-template-columns: 2fr 1fr; 
+    gap: 12px;
+    
+    // CRUCIAL: Adiciona um padding no topo para compensar a altura do SidebarLeft fixo
+    // (Aproximadamente 135px de altura total do SidebarLeft + a Navbar)
+    padding-top: 135px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  // O SidebarLeft agora é fixo, mas o SidebarRight continua no fluxo.
+}
+
+
+/* Responsivo: Celular (≤768px) */
 @media (max-width: 768px) {
   .container {
-    grid-template-columns: 1fr; // tudo empilhado
+    // Tudo empilhado
+    grid-template-columns: 1fr; 
     gap: 12px;
-    padding-top: 0.5rem; 
+    
+    // Mantém o espaço para o SidebarLeft fixo no topo
+    padding-top: 135px; 
   }
-
-  .container > * { 
-    position: static !important;
+  
+  // Opção: Esconder o SidebarRight em mobile para focar no Feed.
+  // Se o SidebarRight for o último elemento:
+  .container > *:last-child { 
+      display: none;
   }
 }
