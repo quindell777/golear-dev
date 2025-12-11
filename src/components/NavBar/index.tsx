@@ -6,7 +6,6 @@ import { IoIosMenu } from "react-icons/io";
 import styles from "./NavBar.module.scss";
 import logo from "../../assets/LogoGolear-4.png";
 import { useAuth } from "../../context/AuthContext";
-// Não precisamos mais de searchPlayers ou Player aqui
 
 const Navbar: React.FC = () => {
   const { profile, loadingProfile } = useAuth();
@@ -14,9 +13,6 @@ const Navbar: React.FC = () => {
 
   const [query, setQuery] = useState<string>(""); // Apenas o query da busca
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Removemos os states de 'results' e 'searchOpen'
-  // Removemos 'timeoutRef' e 'searchRef'
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +66,8 @@ const Navbar: React.FC = () => {
         ) : profile ? (
           // O ID do perfil vem do AuthContext
           <Link to={`/profile/${profile.id}`} className={styles.profileLink}>
-            <span>{profile.nome}</span>
+            {/* O SPAN encapsula o nome para aplicar a regra de ellipsis no CSS */}
+            <span>{profile.nome}</span> 
           </Link>
         ) : (
           <Link to="/login">Login</Link>
@@ -89,7 +86,7 @@ const Navbar: React.FC = () => {
         <div className={styles.mobileDropdown} ref={menuRef}>
           <Link to="/feed" onClick={() => setMenuOpen(false)}>Feed</Link>
           
-          {/* --- LINKS CONDICIONAIS PELA ROLE (da documentação) --- */}
+          {/* --- LINKS CONDICIONAIS PELA ROLE --- */}
           {profile?.role === "Jogador" && (
             <Link to="/peneiras" onClick={() => setMenuOpen(false)}>Peneiras</Link>
           )}
@@ -97,9 +94,8 @@ const Navbar: React.FC = () => {
             <Link to="/competicoes" onClick={() => setMenuOpen(false)}>Competições</Link>
           )}
           {profile?.role === "Olheiro" && (
-             <Link to="/peneiras" onClick={() => setMenuOpen(false)}>Peneiras</Link>
+              <Link to="/peneiras" onClick={() => setMenuOpen(false)}>Peneiras</Link>
           )}
-          {/* Adicione outros links de role aqui (Fã, Profissional) */}
           
           {/* Links de Perfil/Login */}
           {profile ? (

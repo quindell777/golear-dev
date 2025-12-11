@@ -60,42 +60,35 @@
       color: #ccc;
     }
   }
-
-  .dropdown {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    right: 0;
-    background: #1f2833;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    z-index: 99;
-    list-style: none;
-    padding: 0.3rem 0;
-    max-height: 250px;
-    overflow-y: auto;
-
-    li {
-      padding: 0.6rem 1rem;
-
-      a {
-        text-decoration: none;
-        color: #0b0c10;
-        font-size: 0.9rem;
-        display: block;
-      }
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.08);
-      }
-    }
-  }
 }
 
-/* ==== PERFIL ==== */
+/* ==== PERFIL (CORRIGIDO PARA ELLIPSIS) ==== */
 .userProfile {
   display: flex;
   align-items: center;
+
+  // CRÍTICO: Permite que o Flex container se encolha
+  min-width: 0; 
+  
+  .profileLink {
+    display: block;
+    // Opcional: define uma largura máxima para o link
+    max-width: 150px; 
+    
+    // Regras de Truncagem (Ellipsis) no SPAN
+    span {
+      display: inline-block;
+      min-width: 0; 
+      white-space: nowrap; // Impede quebra de linha
+      overflow: hidden; // Esconde o que exceder
+      text-overflow: ellipsis; // Adiciona '...'
+      
+      // Estilos de Link
+      color: #0b0c10;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  }
 
   a {
     color: #0b0c10;
@@ -134,6 +127,7 @@
   border-radius: 10px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.2s ease-in-out;
+  z-index: 1000; // Garante que fique acima da Sidebar
 
   a {
     padding: 0.5rem 0.8rem;
@@ -173,11 +167,14 @@
 
   .searchContainer {
     order: 2;
-    flex: 1 1 100%;
+    flex: 1 1 100%; // Ocupa a largura total da linha abaixo
   }
 
   .userProfile {
     order: 3;
+    // Garante que o nome do perfil não ocupe mais de 50% para deixar espaço para o botão
+    flex-basis: auto; 
+    max-width: 50%;
   }
 
   .menuButton {
