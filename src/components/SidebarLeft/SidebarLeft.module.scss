@@ -27,7 +27,7 @@
 // 1. SIDEBAR - DESKTOP/DEFAULT (width: 250px, position: sticky)
 // ==========================================================
 .sidebar {
-  width: 250px; // Largura fixa no desktop
+  width: 250px; 
   background-color: $light-surface;
   border: 1px solid $light-border;
   border-radius: $radius;
@@ -40,15 +40,14 @@
   max-height: fit-content;
   animation: fadeIn 0.4s ease-in-out;
   
-  // Posicionamento Sticky (Desktop)
   position: sticky; 
-  top: 20px; // Fica um pouco abaixo do topo
+  top: 20px;
   align-self: start;
 
-  // ===== PERFIL (Mantido) =====
+  // ===== PERFIL (CORRIGIDO) =====
   .profile {
     border-radius: $radius;
-    overflow: hidden;
+    // CRÍTICO: REMOVIDO 'overflow: hidden' para evitar o corte do avatar com margin-top negativo.
     position: relative;
     background-color: $light-bg;
     border: 1px solid $light-border;
@@ -205,11 +204,11 @@
     min-height: auto;
     max-height: fit-content;
     
-    position: fixed; // CRUCIAL: Retirado do fluxo
-    top: 55px; // CRUCIAL: Fica abaixo da NavBar (~55px de altura)
+    position: fixed; 
+    top: 55px; 
     left: 0;
     right: 0;
-    z-index: 999; // CRUCIAL: Fica acima do Conteúdo Principal
+    z-index: 999; 
     align-self: unset; 
     
     // === Propriedades Visuais ===
@@ -264,7 +263,7 @@
   
   .profile .userInfo {
     margin-top: 0;
-    p { display: none; } // Remove a bio
+    p { display: none; } 
     h3 { font-size: 1rem; margin: 0; }
   }
   
@@ -285,7 +284,7 @@
   // --- A SEGUNDA LINHA: Links Úteis horizontalmente ---
   .usefulLinks {
     display: flex;
-    flex-direction: row; // Links lado a lado
+    flex-direction: row; 
     justify-content: center;
     gap: 1rem;
     width: 100%;
@@ -293,7 +292,7 @@
     padding: 0.5rem 0 0 0;
     border-top: 1px solid $light-border;
     
-    h4 { display: none; } // Esconde o título
+    h4 { display: none; } 
     
     button, a {
       padding: 0.25rem 0.5rem;
