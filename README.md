@@ -1,4 +1,4 @@
-# Golear-frontend.
+# Golear-frontend
 
 {
   "version": 2, // Versão da configuração do Vercel
