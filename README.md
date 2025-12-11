@@ -1,7 +1,7 @@
 # Golear-frontend 1.0
 
 {
-  "version": 2, // Versão da configuração do Vercel
+  "version": 2, // Versão da configuração do Vercel.
   
   "builds": [
     {
