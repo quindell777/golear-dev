@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.scss";
 import { registerUser } from "../../services/register";
+import axios from "axios";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -21,14 +22,26 @@ const Register: React.FC = () => {
     estado: "",
   });
 
-  // Estado para gerenciar erros de CADA campo (email, password, global, etc.)
+  // Estado para gerenciar erros de CADA campo
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
+
+  // Novos estados para validação de email
+  const [isEmailValidating, setIsEmailValidating] = useState(false);
+  const [isEmailValidated, setIsEmailValidated] = useState(false);
+  const [validationMessage, setValidationMessage] = useState({ type: '', text: '' });
+
 
   // Limpa o erro do campo assim que o usuário começa a digitar nele
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+
+    // Se o email for alterado, a validação anterior é resetada
+    if (name === 'email') {
+      setIsEmailValidated(false);
+      setValidationMessage({ type: '', text: '' });
+    }
     
     // Limpa o erro do campo específico e o erro global ao digitar
     if (errors[name] || errors.global) {
@@ -40,6 +53,40 @@ const Register: React.FC = () => {
       });
     }
   };
+
+  const handleValidateEmail = async () => {
+    if (!form.email) {
+      setValidationMessage({ type: 'error', text: 'Por favor, insira um e-mail para validar.' });
+      return;
+    }
+    
+    setIsEmailValidating(true);
+    setValidationMessage({ type: '', text: '' });
+
+    try {
+      const apiKey = import.meta.env.VITE_ABSTRACT_API_KEY;
+      if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+        throw new Error("A chave da API de validação de email não está configurada.");
+      }
+
+      const response = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${form.email}`);
+
+      if (response.data && response.data.is_smtp_valid && response.data.is_smtp_valid.value === true) {
+        setIsEmailValidated(true);
+        setValidationMessage({ type: 'success', text: 'E-mail validado com sucesso!' });
+      } else {
+        setIsEmailValidated(false);
+        setValidationMessage({ type: 'error', text: 'Este e-mail não é válido ou não pôde ser verificado.' });
+      }
+    } catch (error) {
+      console.error("Erro na validação de e-mail:", error);
+      setIsEmailValidated(false);
+      setValidationMessage({ type: 'error', text: 'Ocorreu um erro ao validar o e-mail. Verifique a chave da API.' });
+    } finally {
+      setIsEmailValidating(false);
+    }
+  };
+
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -62,8 +109,12 @@ const Register: React.FC = () => {
   const processUserRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. Validação Front-end
     if (!validateForm()) return;
+
+    if (!isEmailValidated) {
+        setErrors((prev) => ({ ...prev, global: "Por favor, valide seu e-mail antes de continuar." }));
+        return;
+    }
 
     try {
       setLoading(true);
@@ -90,14 +141,11 @@ const Register: React.FC = () => {
     } catch (error: any) {
       console.error("Erro ao registrar:", error);
       
-      // 2. Tratamento de Erro do Backend
       const msg = error.response?.data?.message || "Ocorreu um erro inesperado.";
       
       if (error.response?.status === 409) {
-        // Erro 409 (Conflito/Duplicado) -> Exibe embaixo do campo email
         setErrors((prev) => ({ ...prev, email: msg }));
       } else {
-        // Outros erros (500, 400 genérico) -> Exibe no topo do form
         setErrors((prev) => ({ ...prev, global: msg }));
       }
     } finally {
@@ -105,31 +153,49 @@ const Register: React.FC = () => {
     }
   };
 
+  const getValidationButtonClass = () => {
+    if (isEmailValidating) return `${styles.validationButton} ${styles.isValidating}`;
+    if (isEmailValidated) return `${styles.validationButton} ${styles.isValid}`;
+    return styles.validationButton;
+  }
+
   return (
     <div className={styles.registerContainer}>
       <form className={styles.registerForm} onSubmit={processUserRegistration}>
         <h1 className={styles.title}>Crie sua conta</h1>
 
-        {/* Exibe erro global (API/Servidor) no topo do form */}
         {errors.global && <div className={styles.globalError}>{errors.global}</div>}
 
-        {/* Email */}
         <div className={styles.inputGroup}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleInputChange}
-            required
-            className={styles.input}
-            // Borda vermelha se houver erro
-            style={errors.email ? { borderColor: '#ef4444' } : {}}
-          />
+            <div className={styles.inputWithButton}>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleInputChange}
+                    required
+                    className={styles.input}
+                    style={errors.email ? { borderColor: '#ef4444' } : {}}
+                    disabled={isEmailValidated}
+                />
+                <button
+                    type="button"
+                    onClick={handleValidateEmail}
+                    className={getValidationButtonClass()}
+                    disabled={isEmailValidating || isEmailValidated}
+                >
+                    {isEmailValidating ? "Validando..." : isEmailValidated ? "Validado" : "Validar Email"}
+                </button>
+            </div>
           {errors.email && <span className={styles.errorText}>{errors.email}</span>}
+          {validationMessage.text && 
+            <span className={`${styles.validationMessage} ${styles[validationMessage.type]}`}>
+              {validationMessage.text}
+            </span>
+          }
         </div>
 
-        {/* Confirmar Email */}
         <div className={styles.inputGroup}>
           <input
             type="email"
@@ -144,7 +210,6 @@ const Register: React.FC = () => {
           {errors.confirmEmail && <span className={styles.errorText}>{errors.confirmEmail}</span>}
         </div>
 
-        {/* Senha */}
         <div className={styles.inputGroup}>
           <input
             type="password"
@@ -159,7 +224,6 @@ const Register: React.FC = () => {
           {errors.password && <span className={styles.errorText}>{errors.password}</span>}
         </div>
 
-        {/* Confirmar Senha */}
         <div className={styles.inputGroup}>
           <input
             type="password"
@@ -174,7 +238,6 @@ const Register: React.FC = () => {
           {errors.confirmPassword && <span className={styles.errorText}>{errors.confirmPassword}</span>}
         </div>
 
-        {/* Role (Função) */}
         <div className={styles.inputGroup}>
           <select
             name="role"
@@ -190,7 +253,6 @@ const Register: React.FC = () => {
           </select>
         </div>
 
-        {/* Nome Completo */}
         <div className={styles.inputGroup}>
           <input
             type="text"
@@ -202,8 +264,6 @@ const Register: React.FC = () => {
             className={styles.input}
           />
         </div>
-
-        {/* Campos Condicionais */}
 
         {form.role === "Jogador" && (
           <div className={styles.inputGroup}>
@@ -270,7 +330,7 @@ const Register: React.FC = () => {
         )}
 
         <div className={styles.buttons}>
-          <button type="submit" className={styles.submitButton} disabled={loading}>
+          <button type="submit" className={styles.submitButton} disabled={loading || !isEmailValidated}>
             {loading ? "Registrando..." : "Finalizar Registro"}
           </button>
         </div>

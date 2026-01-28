@@ -106,6 +106,62 @@ $error-border: #fecaca;
     animation: fadeIn 0.3s ease-in-out;
   }
 
+  // NOVO: Container para input com botão ao lado
+  .inputWithButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    .input {
+      flex-grow: 1; // Input ocupa o espaço disponível
+      margin-bottom: 0; // Remove a margem que estava no input
+    }
+  }
+
+  // NOVO: Estilo para o botão de validação de email
+  .validationButton {
+    @include button-style($green, $white, $green-dark);
+    flex-grow: 0; // O botão não estica
+    white-space: nowrap; // Evita que o texto quebre
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+
+      &:hover {
+        background: #ccc;
+      }
+    }
+
+    &.isValidating {
+      background: #ffc107;
+    }
+
+    &.isValid {
+      background: #28a745;
+    }
+  }
+
+  // NOVO: Mensagem de feedback da validação
+  .validationMessage {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    text-align: left;
+    
+    &.success {
+      color: #28a745;
+    }
+
+    &.error {
+      color: $error-text;
+    }
+  }
+
   .row {
     display: flex;
     gap: 1rem;
