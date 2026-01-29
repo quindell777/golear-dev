@@ -69,7 +69,7 @@ const Register: React.FC = () => {
         throw new Error("A chave da API de validação de email não está configurada.");
       }
 
-      const response = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${form.email}`);
+      const response = await axios.get(`https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${form.email}`);
 
       if (response.data && response.data.email_deliverability && response.data.email_deliverability.is_smtp_valid === true) {
         setIsEmailValidated(true);
