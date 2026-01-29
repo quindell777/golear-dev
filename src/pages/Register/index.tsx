@@ -65,11 +65,11 @@ const Register: React.FC = () => {
 
     try {
       const apiKey = import.meta.env.VITE_ABSTRACT_API_KEY;
-      if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+      if (!apiKey || apiKey === "bfe9b74983ab47b6a5a545f287c9ee67") {
         throw new Error("A chave da API de validação de email não está configurada.");
       }
 
-      const response = await axios.get(`https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${form.email}`);
+      const response = await axios.get(`https://emailreputation.abstractapi.com/v1/?api_key=${apiKey}&email=${form.email}`);
 
       if (response.data && response.data.is_smtp_valid && response.data.is_smtp_valid.value === true) {
         setIsEmailValidated(true);
